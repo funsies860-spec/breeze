@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breeze — Jewelry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1D3156;
+    --azure-deep: #1D3156;
+    --azure-mid: #496894;
+    --azure-soft: #A4B5D1;
+    --cascade-pale: #B0CBE6;
+    --paper: #FBFAF7;
+    --paper-dim: #F3F1EB;
+    --gold: #FED6CE;
+    --gold-soft: #FED6CE;
+    --line: rgba(29, 49, 86, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    color: var(--azure-deep);
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  img, svg { display: block; max-width: 100%; }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--azure-mid);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  /* ---------- Nav ---------- */
+  header.site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(251, 250, 247, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--azure-deep);
+    letter-spacing: 0.01em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    font-size: 0.95rem;
+  }
+
+  .nav-links a {
+    color: var(--ink);
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border: 1px solid var(--azure-deep);
+    border-radius: 2px;
+    color: var(--azure-deep);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .nav-cta:hover { background: var(--azure-deep); color: var(--paper); }
+
+  .nav-toggle { display: none; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-top: 72px;
+  }
+
+  .hero-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 64px 32px 40px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.95rem;
+    color: var(--azure-mid);
+    margin-bottom: 18px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.6rem, 5vw, 4.1rem);
+    max-width: 11ch;
+  }
+
+  .hero p.lede {
+    margin-top: 24px;
+    max-width: 42ch;
+    font-size: 1.08rem;
+    color: rgba(29, 49, 86, 0.78);
+  }
+
+  .hero-actions {
+    margin-top: 36px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 26px;
+    font-size: 0.95rem;
+    border-radius: 2px;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .btn-primary {
+    background: var(--azure-deep);
+    color: var(--paper);
+    border: 1px solid var(--azure-deep);
+  }
+  .btn-primary:hover { background: var(--ink); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--azure-deep);
+    border: 1px solid var(--line);
+  }
+  .btn-ghost:hover { border-color: var(--azure-deep); }
+
+  .hero-art {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-waves {
+    position: absolute;
+    inset: -10%;
+    z-index: 0;
+  }
+
+  .hero-ring {
+    position: relative;
+    z-index: 1;
+    width: 62%;
+  }
+
+  /* Cascade divider */
+  .cascade-divider {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ---------- Section scaffolding ---------- */
+  section { padding: 96px 0; }
+
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 52px;
+    flex-wrap: wrap;
+  }
+
+  .section-head h2 {
+    font-size: clamp(2rem, 3.2vw, 2.6rem);
+  }
+
+  .section-head p {
+    max-width: 38ch;
+    color: rgba(29, 49, 86, 0.7);
+    font-size: 1rem;
+  }
+
+  .section-link {
+    font-size: 0.95rem;
+    color: var(--azure-mid);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    white-space: nowrap;
+  }
+
+  /* ---------- Shop grid ---------- */
+  .shop {
+    background: var(--paper);
+  }
+
+  .shop-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+  }
+
+  .piece-card {
+    display: flex;
+    flex-direction: column;
+    padding: 28px 22px 24px;
+    background: var(--paper-dim);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+  }
+
+  .piece-card.feature {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: linear-gradient(165deg, var(--cascade-pale) 0%, var(--paper-dim) 78%);
+    padding: 36px 30px 30px;
+  }
+
+  .piece-art {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+  }
+
+  .piece-card.feature .piece-art { min-height: 220px; }
+
+  .piece-meta {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .piece-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+  .piece-card.feature .piece-name { font-size: 1.5rem; }
+
+  .piece-tag {
+    font-size: 0.82rem;
+    color: var(--azure-mid);
+    margin-top: 4px;
+  }
+
+  .piece-price {
+    font-size: 0.98rem;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .piece-actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .piece-actions .btn {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+
+  /* ---------- Buying choice ---------- */
+  .choice {
+    background: var(--azure-deep);
+    color: var(--paper);
+  }
+
+  .choice .section-head h2,
+  .choice .section-head p { color: var(--paper); }
+  .choice .section-head p { opacity: 0.75; }
+
+  .choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(251, 250, 247, 0.18);
+    border: 1px solid rgba(251, 250, 247, 0.18);
+  }
+
+  .choice-card {
+    background: var(--azure-deep);
+    padding: 44px 40px;
+  }
+
+  .choice-card h3 {
+    color: var(--paper);
+    font-size: 1.5rem;
+    margin-bottom: 14px;
+  }
+
+  .choice-card p {
+    color: rgba(251, 250, 247, 0.78);
+    max-width: 38ch;
+    margin-bottom: 24px;
+  }
+
+  .choice-card .btn-ghost {
+    color: var(--paper);
+    border-color: rgba(251, 250, 247, 0.4);
+  }
+  .choice-card .btn-ghost:hover {
+    border-color: var(--paper);
+    background: rgba(251, 250, 247, 0.08);
+  }
+
+  /* ---------- Custom process ---------- */
+  .process-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+  }
+
+  .process-step {
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .process-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--azure-mid);
+    font-size: 1.3rem;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .process-step h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+  }
+
+  .process-step p {
+    font-size: 0.95rem;
+    color: rgba(29, 49, 86, 0.72);
+  }
+
+  /* ---------- Story ---------- */
+  .story {
+    background: var(--paper-dim);
+  }
+
+  .story-inner {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .story h2 {
+    font-size: clamp(1.9rem, 3vw, 2.4rem);
+    margin-bottom: 22px;
+    max-width: 14ch;
+  }
+
+  .story p {
+    color: rgba(29, 49, 86, 0.78);
+    margin-bottom: 16px;
+    max-width: 52ch;
+  }
+
+  .story-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---------- Newsletter ---------- */
+  .newsletter {
+    background: var(--paper);
+  }
+
+  .newsletter-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    padding: 56px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+
+  .newsletter h2 {
+    font-size: 1.7rem;
+    max-width: 16ch;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 0;
+    min-width: 320px;
+    flex: 1;
+    max-width: 420px;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-right: none;
+    background: var(--paper);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    border-radius: 2px 0 0 2px;
+  }
+
+  .newsletter-form input:focus { outline: none; border-color: var(--azure-mid); }
+
+  .newsletter-form button {
+    padding: 14px 22px;
+    background: var(--azure-deep);
+    color: var(--paper);
+    border: 1px solid var(--azure-deep);
+    border-radius: 0 2px 2px 0;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .newsletter-form button:hover { background: var(--ink); }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--ink);
+    color: rgba(251, 250, 247, 0.7);
+    padding: 64px 0 32px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 32px;
+    padding-bottom: 48px;
+  }
+
+  .footer-logo {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--paper);
+    margin-bottom: 14px;
+  }
+
+  .footer-grid p { font-size: 0.92rem; max-width: 32ch; }
+
+  .footer-col h4 {
+    color: var(--paper);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .footer-col a, .footer-col p {
+    display: block;
+    font-size: 0.92rem;
+    color: rgba(251, 250, 247, 0.68);
+    margin-bottom: 10px;
+  }
+  .footer-col a:hover { color: var(--paper); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 24px;
+    border-top: 1px solid rgba(251, 250, 247, 0.14);
+    font-size: 0.82rem;
+    color: rgba(251, 250, 247, 0.5);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-art { order: -1; max-width: 280px; margin: 0 auto; }
+    .shop-grid { grid-template-columns: repeat(2, 1fr); }
+    .piece-card.feature { grid-column: span 2; grid-row: span 1; }
+    .choice-grid { grid-template-columns: 1fr; }
+    .process-list { grid-template-columns: repeat(2, 1fr); }
+    .story-inner { grid-template-columns: 1fr; }
+    .story-art { order: -1; max-width: 260px; margin: 0 auto; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    .wrap, .nav-inner, .hero-inner { padding-left: 20px; padding-right: 20px; }
+    section { padding: 64px 0; }
+    .shop-grid { grid-template-columns: 1fr; }
+    .piece-card.feature { grid-column: span 1; }
+    .process-list { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .newsletter-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo">Breeze</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#shop">Shop</a>
+      <a href="#custom">Custom</a>
+      <a href="#visit">Visit</a>
+      <a href="#story">Our story</a>
+    </nav>
+    <a href="#shop" class="nav-cta">View collection</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="hero-eyebrow">Ready-made &amp; custom jewelry</p>
+        <h1>Pieces that catch the light like water.</h1>
+        <p class="lede">Breeze is built around a simple idea: jewelry should move the way a breeze moves — light, fluid, a little unpredictable. Shop the current collection, or design something made only for you.</p>
+        <div class="hero-actions">
+          <a href="#shop" class="btn btn-primary">Shop the collection</a>
+          <a href="#custom" class="btn btn-ghost">Start a custom piece</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <svg class="hero-waves" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M-20 180C80 140 140 220 240 190C340 160 380 90 520 120" stroke="#A4B5D1" stroke-opacity="0.35" stroke-width="1.5"/>
+          <path d="M-20 260C90 230 150 300 260 270C370 240 410 180 520 210" stroke="#496894" stroke-opacity="0.3" stroke-width="1.5"/>
+          <path d="M-20 340C100 310 160 380 270 350C380 320 420 270 520 300" stroke="#FED6CE" stroke-opacity="0.35" stroke-width="1.5"/>
+        </svg>
+        <svg class="hero-ring" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a ring set with a stone">
+          <circle cx="120" cy="140" r="76" stroke="#1D3156" stroke-width="6"/>
+          <circle cx="120" cy="140" r="76" stroke="#FED6CE" stroke-width="1.5" stroke-dasharray="3 6"/>
+          <path d="M92 58L120 24L148 58L120 82L92 58Z" fill="#B0CBE6" stroke="#1D3156" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M120 24L120 82" stroke="#1D3156" stroke-width="1.5" stroke-opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+    <svg class="cascade-divider" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M0 40C240 10 480 70 720 40C960 10 1200 70 1440 40V90H0V40Z" fill="#B0CBE6"/>
+    </svg>
+  </section>
+
+  <!-- SHOP -->
+  <section class="shop" id="shop">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2>Ready to wear now</h2>
+          <p>A small, rotating collection of ready-made pieces. Each one ships within three days.</p>
+        </div>
+        <a href="#" class="section-link">See all pieces</a>
+      </div>
+
+      <div class="shop-grid">
+
+        <div class="piece-card feature">
+          <div class="piece-art">
+            <svg viewBox="0 0 200 200" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a necklace with a teardrop pendant">
+              <path d="M40 30C40 80 160 80 160 30" stroke="#1D3156" stroke-width="3"/>
+              <path d="M100 80L118 112C118 124 110 132 100 132C90 132 82 124 82 112L100 80Z" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="piece-meta">
+            <div>
+              <p class="piece-name">Tidewater pendant</p>
+              <p class="piece-tag">14k gold vermeil, ready-made</p>
+            </div>
+            <p class="piece-price">$210</p>
+          </div>
+          <div class="piece-actions">
+            <a href="#" class="btn btn-primary">Buy online</a>
+            <a href="#visit" class="btn btn-ghost">Reserve in store</a>
+          </div>
+        </div>
+
+        <div class="piece-card">
+          <div class="piece-art">
+            <svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a ring">
+              <circle cx="80" cy="90" r="50" stroke="#1D3156" stroke-width="4"/>
+              <circle cx="80" cy="38" r="14" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="piece-meta">
+            <div>
+              <p class="piece-name">Cascade band</p>
+              <p class="piece-tag">Sterling silver</p>
+            </div>
+            <p class="piece-price">$95</p>
+          </div>
+        </div>
+
+        <div class="piece-card">
+          <div class="piece-art">
+            <svg viewBox="0 0 160 160" width="60%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a pair of drop earrings">
+              <path d="M60 20C60 34 74 34 74 20" stroke="#1D3156" stroke-width="3"/>
+              <ellipse cx="67" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/>
+              <path d="M100 20C100 34 114 34 114 20" stroke="#1D3156" stroke-width="3"/>
+              <ellipse cx="107" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="piece-meta">
+            <div>
+              <p class="piece-name">Windfall drops</p>
+              <p class="piece-tag">Freshwater pearl</p>
+            </div>
+            <p class="piece-price">$140</p>
+          </div>
+        </div>
+
+        <div class="piece-card">
+          <div class="piece-art">
+            <svg viewBox="0 0 160 160" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a bangle bracelet">
+              <ellipse cx="80" cy="80" rx="58" ry="40" stroke="#1D3156" stroke-width="4"/>
+              <path d="M22 80C22 60 40 46 62 44" stroke="#FED6CE" stroke-width="2" stroke-dasharray="2 6"/>
+            </svg>
+          </div>
+          <div class="piece-meta">
+            <div>
+              <p class="piece-name">Low tide cuff</p>
+              <p class="piece-tag">Brushed gold</p>
+            </div>
+            <p class="piece-price">$165</p>
+          </div>
+        </div>
+
+        <div class="piece-card">
+          <div class="piece-art">
+            <svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a chain necklace">
+              <path d="M40 40C40 90 120 90 120 40" stroke="#1D3156" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/>
+              <circle cx="80" cy="98" r="7" fill="#FED6CE"/>
+            </svg>
+          </div>
+          <div class="piece-meta">
+            <div>
+              <p class="piece-name">Shoreline chain</p>
+              <p class="piece-tag">14k gold vermeil</p>
+            </div>
+            <p class="piece-price">$120</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BUYING CHOICE -->
+  <section class="choice" id="visit">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2>However you'd rather shop</h2>
+          <p>Every piece is available both ways — buy the moment you decide, or come hold it first.</p>
+        </div>
+      </div>
+      <div class="choice-grid">
+        <div class="choice-card">
+          <h3>Buy online</h3>
+          <p>Checkout securely and have your piece shipped, insured, in three to five days. Free exchanges within 30 days.</p>
+          <a href="#shop" class="btn btn-ghost">Shop the collection</a>
+        </div>
+        <div class="choice-card">
+          <h3>Visit in person</h3>
+          <p>Try pieces on, get sized properly, and talk through a custom idea face to face at the studio.</p>
+          <a href="#" class="btn btn-ghost">See studio hours</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOM -->
+  <section id="custom">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2>Or design something that doesn't exist yet</h2>
+          <p>Bring a sketch, a reference, or just a feeling — we'll shape it into a piece that's genuinely yours.</p>
+        </div>
+      </div>
+      <div class="process-list">
+        <div class="process-step">
+          <span class="process-num">01</span>
+          <h3>Consult</h3>
+          <p>A short call or studio visit to talk through materials, budget, and what you're picturing.</p>
+        </div>
+        <div class="process-step">
+          <span class="process-num">02</span>
+          <h3>Design</h3>
+          <p>You'll get sketches and a quote before anything is made, with room for revisions.</p>
+        </div>
+        <div class="process-step">
+          <span class="process-num">03</span>
+          <h3>Craft</h3>
+          <p>Your piece is handmade in the studio — most custom orders take two to four weeks.</p>
+        </div>
+        <div class="process-step">
+          <span class="process-num">04</span>
+          <h3>Deliver</h3>
+          <p>Pick it up in person for a final fitting, or have it shipped straight to you.</p>
+        </div>
+      </div>
+      <div class="hero-actions" style="margin-top: 48px;">
+        <a href="#" class="btn btn-primary">Start a custom order</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="story" id="story">
+    <div class="wrap story-inner">
+      <div class="story-art">
+        <svg viewBox="0 0 220 220" width="80%" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 110C20 60 60 20 110 20C160 20 200 60 200 110" stroke="#496894" stroke-width="1.5" stroke-opacity="0.5"/>
+          <path d="M40 130C40 90 72 60 110 60C148 60 180 90 180 130" stroke="#FED6CE" stroke-width="1.5" stroke-opacity="0.6"/>
+          <circle cx="110" cy="140" r="26" fill="#B0CBE6" stroke="#1D3156" stroke-width="4"/>
+        </svg>
+      </div>
+      <div>
+        <h2>Made to be worn, not just kept.</h2>
+        <p>Breeze started as a handful of pieces made for friends — nothing precious enough to sit in a drawer, but honest enough to wear every day. That's still the standard: real materials, made by hand, at a price that doesn't ask you to treat it carefully.</p>
+        <p>We keep the ready-made collection small on purpose, and leave the rest open for whatever you bring us.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="wrap newsletter-inner">
+      <h2>New pieces, roughly once a month.</h2>
+      <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed';">
+        <label for="email" style="position:absolute; left:-9999px;">Email address</label>
+        <input id="email" type="email" placeholder="you@example.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-logo">Breeze</p>
+        <p>Ready-made and custom jewelry, handmade in the studio. Shop online or visit us in person.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="#shop">Collection</a>
+        <a href="#custom">Custom orders</a>
+        <a href="#visit">Studio visits</a>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <a href="#story">Our story</a>
+        <a href="#">Care guide</a>
+        <a href="#">Shipping &amp; returns</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>hello@breezejewelry.com</p>
+        <p>Studio hours: Tue–Sat, 11–6</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Breeze. All rights reserved.</span>
+      <span>Placeholder illustrations — swap in product photography when ready.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
