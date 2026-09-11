@@ -353,30 +353,19 @@ section {
 }
 
 .choice-grid {
-  display: ;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: rgba(251, 250, 247, 0.18);
-  border: 48px 0px solid rgba(251, 250, 247, 0.18);
-}
-
-.choice-card {
-  background: var(--azure-deep);
-  padding: 44px 40px;
-}
-
-.choice-grid {
   display: flex;
-  justify-content: center;
+  width: 100%;
 }
 
 .choice-card {
-  background: var(--azure-deep);
-  padding: 44px 40px;
+  width: 100%;
+  max-width: 100%;
+  padding: 48px 32px;
+  background: var(--azure-deep, #1a232a);
   border: 1px solid rgba(251, 250, 247, 0.18);
   border-radius: 4px;
-  max-width: 740px;
-  width: 100%;
+  box-sizing: border-box;
+  text-align: center; /* Optional: centers the button and text */
 }
 
 .choice-card .btn-ghost {
