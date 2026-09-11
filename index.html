@@ -522,7 +522,73 @@ section {
 .newsletter-form button:hover {
   background: var(--ink);
 }
+  .product-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 24px;
+}
 
+@media (max-width: 768px) {
+  .product-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.product-media {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(251, 250, 247, 0.1);
+  border-radius: 8px;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-price {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 16px 0;
+  color: #b0cbe6;
+}
+
+.btn-buy {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 24px;
+}
+
+.specs-box, .story-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(251, 250, 247, 0.1);
+  padding: 20px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.specs-box h3, .story-box h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #fff;
+}
+.btn-back {
+  background-color: transparent;
+  color: #1D3156;
+  border: 1px solid #1D3156;
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-back:hover {
+  background-color: #1D3156;
+  color: #ffffff;
+}
 footer {
   background: var(--ink);
   color: rgba(251, 250, 247, 0.7);
@@ -665,7 +731,7 @@ footer {
           <h2>Ready to wear now</h2>
           <p>A small, rotating collection of ready-made pieces. Each one ships within three days.</p>
         </div>
-        <a href="#" class="section-link">See all pieces</a>
+       <a href="#collection" onclick="showView('collection')" class="btn btn-secondary">See all pieces</a>
       </div>
 
       <div class="shop-grid">
@@ -829,6 +895,100 @@ footer {
         <p>We keep the ready-made collection small on purpose, and leave the rest open for whatever you bring us.</p>
       </div>
     </div>
+    <div class="shop-grid">
+
+        <!-- Card 1 -->
+        <div class="piece-card feature" onclick="openProductDetail(1)" style="cursor: pointer;">
+          <div class="piece-art">
+            <svg viewBox="0 0 200 200" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a necklace with a teardrop pendant">
+              <path d="M40 30C40 80 160 80 160 30" stroke="#1D3156" stroke-width="3"/>
+              <path d="M100 80L118 112C118 124 110 132 100 132C90 132 82 124 82 112L100 80Z" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="piece-meta">
+            <div>
+              <p class="piece-name">Cat head pendant</p>
+              <p class="piece-tag">925 Silver, ready-made</p>
+            </div>
+            <p class="piece-price">$600</p>
+          </div>
+          <div class="piece-actions">
+            <!-- Removed the # link so it doesn't conflict with the card click -->
+            <button class="btn btn-primary">Buy online</button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="piece-card" onclick="openProductDetail(2)" style="cursor: pointer;">
+          <div class="piece-art">
+            <svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a ring">
+              <circle cx="80" cy="90" r="50" stroke="#1D3156" stroke-width="4"/>
+              <circle cx="80" cy="38" r="14" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="piece-meta">
+            <div>
+              <p class="piece-name">Cascade band</p>
+              <p class="piece-tag">Sterling silver</p>
+            </div>
+            <p class="piece-price">$95</p>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="piece-card" onclick="openProductDetail(3)" style="cursor: pointer;">
+          <div class="piece-art">
+            <svg viewBox="0 0 160 160" width="60%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a pair of drop earrings">
+              <path d="M60 20C60 34 74 34 74 20" stroke="#1D3156" stroke-width="3"/>
+              <ellipse cx="67" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/>
+              <path d="M100 20C100 34 114 34 114 20" stroke="#1D3156" stroke-width="3"/>
+              <ellipse cx="107" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="piece-meta">
+            <div>
+              <p class="piece-name">Windfall drops</p>
+              <p class="piece-tag">Freshwater pearl</p>
+            </div>
+            <p class="piece-price">$140</p>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="piece-card" onclick="openProductDetail(4)" style="cursor: pointer;">
+          <div class="piece-art">
+            <svg viewBox="0 0 160 160" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a bangle bracelet">
+              <ellipse cx="80" cy="80" rx="58" ry="40" stroke="#1D3156" stroke-width="4"/>
+              <path d="M22 80C22 60 40 46 62 44" stroke="#FED6CE" stroke-width="2" stroke-dasharray="2 6"/>
+            </svg>
+          </div>
+          <div class="piece-meta">
+            <div>
+              <p class="piece-name">Low tide cuff</p>
+              <p class="piece-tag">Brushed gold</p>
+            </div>
+            <p class="piece-price">$165</p>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="piece-card" onclick="openProductDetail(5)" style="cursor: pointer;">
+          <div class="piece-art">
+            <svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a chain necklace">
+              <path d="M40 40C40 90 120 90 120 40" stroke="#1D3156" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/>
+              <circle cx="80" cy="98" r="7" fill="#FED6CE"/>
+            </svg>
+          </div>
+          <div class="piece-meta">
+            <div>
+              <p class="piece-name">Shoreline chain</p>
+              <p class="piece-tag">14k gold vermeil</p>
+            </div>
+            <p class="piece-price">$120</p>
+          </div>
+        </div>
+
+      </div>
   </section>
 
 
@@ -848,6 +1008,47 @@ footer {
 
 </main>
 </div>
+ <!-- PRODUCT DETAIL VIEW -->
+<div id="product-detail-view" style="display: none; padding: 2rem 0;">
+  
+  <!-- Themed Back Button -->
+ <button class="btn-back" onclick="showView('collection')">
+  ← Back to Collection
+</button>
+
+  <div class="product-detail-layout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start;">
+    
+    <!-- Product Media -->
+    <div id="detail-media" class="piece-art" style="background: #F4F6F8; border-radius: 8px; padding: 2rem; text-align: center;">
+      <!-- SVG loaded dynamically via JS -->
+    </div>
+
+    <!-- Product Details -->
+    <div class="detail-info">
+      <h1 id="detail-name" style="margin-top: 0;">Product Name</h1>
+      <p id="detail-price" style="font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0;">$0</p>
+      <p id="detail-material" style="color: #666; margin-bottom: 1.5rem;">Material tag</p>
+
+      <!-- Azure Blue Header: Story & Meaning -->
+      <h3 style="color: #007FFF; margin-top: 1.5rem; margin-bottom: 0.5rem;">Story & Meaning</h3>
+      <p id="detail-description" style="line-height: 1.6; color: #444;">Product description text goes here.</p>
+
+      <!-- Azure Blue Header: Specifications -->
+      <h3 style="color: #007FFF; margin-top: 2rem; margin-bottom: 0.5rem;">Specifications</h3>
+      <ul style="line-height: 1.8; color: #444; padding-left: 1.2rem;">
+        <li>Handcrafted 925 Silver / 14k Gold Vermeil</li>
+        <li>Sustainably sourced materials</li>
+        <li>Designed for daily wear</li>
+      </ul>
+
+      <button class="btn btn-primary" style="margin-top: 2rem; width: 100%;">Add to Cart</button>
+
+
+ 
+        </div>
+      </div>
+    </div>
+
   <!-- COLLECTION VIEW (Hidden by default) -->
 <!-- COLLECTION VIEW -->
 <div id="collection-view" style="display: none;">
@@ -898,89 +1099,114 @@ footer {
 
 </body>
 <script>
-  const products = [
-    { name: "Cat Head Pendant", price: "$600", tag: "925 Silver, ready-made" },
-    { name: "Cascade Band", price: "$95", tag: "Sterling silver" },
-    { name: "Windfall Drops", price: "$140", tag: "Freshwater pearl" },
-    { name: "Low Tide Cuff", price: "$165", tag: "Brushed gold" },
-    { name: "Shoreline Chain", price: "$120", tag: "14k gold vermeil" },
-    { name: "Aura Pendant", price: "$260", tag: "925 Silver" },
-    { name: "Solitaire Ring", price: "$420", tag: "14k gold" },
-    { name: "Minimal Studs", price: "$120", tag: "Sterling silver" },
-    { name: "Twisted Hoop", price: "$195", tag: "14k gold vermeil" },
-    { name: "Oceania Choker", price: "$380", tag: "Freshwater pearl" }
-  ];
+ const products = [
+  { id: 1, name: "Cat Head Pendant", price: "$600", tag: "925 Silver, ready-made", description: "Designed to capture subtle fluid silhouettes, this piece represents independence and instinct." },
+  { id: 2, name: "Cascade Band", price: "$95", tag: "Sterling silver", description: "Inspired by flowing shoreline textures, symbolizing continuous movement and adaptability." },
+  { id: 3, name: "Windfall Drops", price: "$140", tag: "Freshwater pearl", description: "Minimalist drop design created to reflect quiet reflection and organic balance." },
+  { id: 4, name: "Low Tide Cuff", price: "$165", tag: "Brushed gold", description: "A grounded structural piece capturing the steady rhythm of receding tides." },
+  { id: 5, name: "Shoreline Chain", price: "$120", tag: "14k gold vermeil", description: "Delicate yet durable links crafted for everyday versatility and timeless wear." },
+  { id: 6, name: "Aura Pendant", price: "$260", tag: "925 Silver", description: "A centered geometric focal piece designed to represent personal clarity." },
+  { id: 7, name: "Solitaire Ring", price: "$420", tag: "14k gold", description: "Classic single-stone aesthetic refined with soft, modern proportions." },
+  { id: 8, name: "Minimal Studs", price: "$120", tag: "Sterling silver", description: "Subtle everyday accents built with precision geometric lines." },
+  { id: 9, name: "Twisted Hoop", price: "$195", tag: "14k gold vermeil", description: "A sculpted form balancing classic curves with bold architectural lines." },
+  { id: 10, name: "Oceania Choker", price: "$380", tag: "Freshwater pearl", description: "Hand-selected freshwater elements representing connection to natural forms." }
+];
 
-  function renderCollection() {
-    const gridContainer = document.getElementById("product-grid");
-    if (!gridContainer || gridContainer.children.length > 0) return;
+function renderCollection() {
+  const gridContainer = document.getElementById("product-grid");
+  if (!gridContainer || gridContainer.children.length > 0) return;
 
-    gridContainer.innerHTML = products.map(product => `
-      <div class="piece-card">
-        <div class="piece-art">
-          <svg viewBox="0 0 160 160" width="60%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${product.name}">
-            <circle cx="80" cy="80" r="50" stroke="#1D3156" stroke-width="4"/>
-            <circle cx="80" cy="38" r="14" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3"/>
-          </svg>
-        </div>
-        <div class="piece-meta">
-          <div>
-            <p class="piece-name">${product.name}</p>
-            <p class="piece-tag">${product.tag}</p>
-          </div>
-          <p class="piece-price">${product.price}</p>
-        </div>
+  gridContainer.innerHTML = products.map(product => `
+    <div class="piece-card" onclick="openProductDetail(${product.id})" style="cursor: pointer;">
+      <div class="piece-art">
+        <svg viewBox="0 0 160 160" width="60%" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${product.name}">
+          <circle cx="80" cy="80" r="50" stroke="#1D3156" stroke-width="4"/>
+          <circle cx="80" cy="38" r="14" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3"/>
+        </svg>
       </div>
-    `).join('');
+      <div class="piece-meta">
+        <div>
+          <p class="piece-name">${product.name}</p>
+          <p class="piece-tag">${product.tag}</p>
+        </div>
+        <p class="piece-price">${product.price}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openProductDetail(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  document.getElementById('detail-name').textContent = product.name;
+  document.getElementById('detail-price').textContent = product.price;
+  document.getElementById('detail-material').textContent = product.tag;
+  document.getElementById('detail-description').textContent = product.description;
+
+  document.getElementById('detail-media').innerHTML = `
+    <svg viewBox="0 0 160 160" width="80%" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="80" cy="80" r="50" stroke="#1D3156" stroke-width="4"/>
+      <circle cx="80" cy="38" r="14" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3"/>
+    </svg>
+  `;
+
+  showView('product-detail');
+}
+
+function showView(viewName) {
+  const homeView = document.getElementById('home-view');
+  const collectionView = document.getElementById('collection-view');
+  const productDetailView = document.getElementById('product-detail-view');
+
+  if (homeView) homeView.style.display = 'none';
+  if (collectionView) collectionView.style.display = 'none';
+  if (productDetailView) productDetailView.style.display = 'none';
+
+  if (viewName === 'collection') {
+    if (collectionView) collectionView.style.display = 'block';
+    renderCollection();
+  } else if (viewName === 'product-detail') {
+    if (productDetailView) productDetailView.style.display = 'block';
+  } else {
+    if (homeView) homeView.style.display = 'block';
   }
 
-  function showView(viewName) {
-    const homeView = document.getElementById('home-view');
-    const collectionView = document.getElementById('collection-view');
+  window.scrollTo(0, 0);
+}
 
-    if (viewName === 'collection') {
-      if (homeView) homeView.style.display = 'none';
-      if (collectionView) collectionView.style.display = 'block';
-      renderCollection();
-    } else {
-      if (homeView) homeView.style.display = 'block';
-      if (collectionView) collectionView.style.display = 'none';
+function handleSubscribe(event) {
+  event.preventDefault(); // Prevents page reload
+  
+  const emailInput = document.getElementById('email');
+  const messageEl = document.getElementById('subscribe-message');
+  const submitBtn = event.target.querySelector('button');
+  const email = emailInput ? emailInput.value : '';
+
+  if (email) {
+    // Update button text and show confirmation message
+    if (submitBtn) submitBtn.textContent = 'Subscribed!';
+    if (messageEl) {
+      messageEl.textContent = `Thank you for subscribing with ${email}!`;
+      messageEl.style.display = 'block';
     }
-    window.scrollTo(0, 0);
-  }
-
-  function handleSubscribe(event) {
-    event.preventDefault(); // Prevents page reload
     
-    const emailInput = document.getElementById('email');
-    const messageEl = document.getElementById('subscribe-message');
-    const submitBtn = event.target.querySelector('button');
-    const email = emailInput ? emailInput.value : '';
+    // Clear the input
+    if (emailInput) emailInput.value = '';
 
-    if (email) {
-      // Update button text and show confirmation message
-      if (submitBtn) submitBtn.textContent = 'Subscribed!';
-      if (messageEl) {
-        messageEl.textContent = `Thank you for subscribing with ${email}!`;
-        messageEl.style.display = 'block';
-      }
-      
-      // Clear the input
-      if (emailInput) emailInput.value = '';
-
-      // Reset button after 5 seconds
-      setTimeout(() => {
-        if (submitBtn) submitBtn.textContent = 'Subscribe';
-        if (messageEl) messageEl.style.display = 'none';
-      }, 5000);
-    }
+    // Reset button after 5 seconds
+    setTimeout(() => {
+      if (submitBtn) submitBtn.textContent = 'Subscribe';
+      if (messageEl) messageEl.style.display = 'none';
+    }, 5000);
   }
+}
 
-  // Handle direct navigation via URL hash on page load
-  window.addEventListener("DOMContentLoaded", () => {
-    if (window.location.hash === "#collection") {
-      showView('collection');
-    }
-  });
+// Handle direct navigation via URL hash on page load
+window.addEventListener("DOMContentLoaded", () => {
+  if (window.location.hash === "#collection") {
+    showView('collection');
+  }
+});
 </script>
 </html>
