@@ -770,7 +770,7 @@ footer {
       <div class="choice-grid">
   <div class="choice-card">
     <h3>Buy online</h3>
-    <p>Checkout securely and have your piece shipped, insured, in three to five days. Free exchanges within 30 days.</p>
+    <p>Checkout securely and have your piece shipped, insured, in three to five days.</p>
     <a href="#shop" class="btn btn-ghost">Shop the collection</a>
   </div>
 </div>
@@ -825,23 +825,26 @@ footer {
       </div>
       <div>
         <h2>Made to be worn, not just kept.</h2>
-        <p>Breeze started as a handful of pieces made for friends — nothing precious enough to sit in a drawer, but honest enough to wear every day. That's still the standard: real materials, made by hand, at a price that doesn't ask you to treat it carefully.</p>
+        <p>Breeze started as a handful of pieces made for friends — precious enough to sit in a drawer, but honest enough to wear every day. That's still the standard: real materials, made by hand, at a price that doesn't ask you to treat it carefully.</p>
         <p>We keep the ready-made collection small on purpose, and leave the rest open for whatever you bring us.</p>
       </div>
     </div>
   </section>
 
+
   <!-- NEWSLETTER -->
-  <section class="newsletter">
-    <div class="wrap newsletter-inner">
-      <h2>New pieces, roughly once a month.</h2>
-      <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed';">
-        <label for="email" style="position:absolute; left:-9999px;">Email address</label>
-        <input id="email" type="email" placeholder="you@example.com" required>
-        <button type="submit">Subscribe</button>
-      </form>
-    </div>
-  </section>
+<section class="newsletter">
+  <div class="wrap newsletter-inner">
+    <h2>New pieces, roughly once a month.</h2>
+    <form class="newsletter-form" id="newsletter-form" onsubmit="handleSubscribe(event)">
+      <label for="email" style="position:absolute; left:-9999px;">Email address</label>
+      <input id="email" type="email" placeholder="you@example.com" required>
+      <button type="submit">Subscribe</button>
+    </form>
+    <!-- Message container that appears after subscribing -->
+    <p id="subscribe-message" style="display: none; margin-top: 12px; color: #b0cbe6; text-align: center;"></p>
+  </div>
+</section>
 
 </main>
 </div>
@@ -867,7 +870,7 @@ footer {
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <p class="footer-logo">Breeze</p>
+        <p class="footer-logo">Breeze jeweles</p>
         <p>Ready-made and custom jewelry, handmade in the studio. Shop online or visit us in person.</p>
       </div>
       <div class="footer-col">
@@ -883,19 +886,18 @@ footer {
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
-        <p>hello@breezejewelry.com</p>
-        <p>Studio hours: Tue–Sat, 11–6</p>
+        <p>hello@breezejeweles.com</p>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Breeze. All rights reserved.</span>
+      <span>© 2026 Breeze jeweles. All rights reserved.</span>
       <span>Placeholder illustrations — swap in product photography when ready.</span>
     </div>
   </div>
 </footer>
 
 </body>
- <script>
+<script>
   const products = [
     { name: "Cat Head Pendant", price: "$600", tag: "925 Silver, ready-made" },
     { name: "Cascade Band", price: "$95", tag: "Sterling silver" },
@@ -937,17 +939,44 @@ footer {
     const collectionView = document.getElementById('collection-view');
 
     if (viewName === 'collection') {
-      homeView.style.display = 'none';
-      collectionView.style.display = 'block';
+      if (homeView) homeView.style.display = 'none';
+      if (collectionView) collectionView.style.display = 'block';
       renderCollection();
     } else {
-      homeView.style.display = 'block';
-      collectionView.style.display = 'none';
+      if (homeView) homeView.style.display = 'block';
+      if (collectionView) collectionView.style.display = 'none';
     }
     window.scrollTo(0, 0);
   }
 
-  // Handle direct navigation via URL hash
+  function handleSubscribe(event) {
+    event.preventDefault(); // Prevents page reload
+    
+    const emailInput = document.getElementById('email');
+    const messageEl = document.getElementById('subscribe-message');
+    const submitBtn = event.target.querySelector('button');
+    const email = emailInput ? emailInput.value : '';
+
+    if (email) {
+      // Update button text and show confirmation message
+      if (submitBtn) submitBtn.textContent = 'Subscribed!';
+      if (messageEl) {
+        messageEl.textContent = `Thank you for subscribing with ${email}!`;
+        messageEl.style.display = 'block';
+      }
+      
+      // Clear the input
+      if (emailInput) emailInput.value = '';
+
+      // Reset button after 5 seconds
+      setTimeout(() => {
+        if (submitBtn) submitBtn.textContent = 'Subscribe';
+        if (messageEl) messageEl.style.display = 'none';
+      }, 5000);
+    }
+  }
+
+  // Handle direct navigation via URL hash on page load
   window.addEventListener("DOMContentLoaded", () => {
     if (window.location.hash === "#collection") {
       showView('collection');
