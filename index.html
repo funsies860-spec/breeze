@@ -1295,170 +1295,122 @@ footer {
   })();
 </script>
 <script>
-const products = [
-  { id: 1, name: "Cat Head Pendant", price: "$600", tag: "925 Silver, ready-made", description: "Designed to capture subtle fluid silhouettes, this piece represents independence and instinct.", svg: `<svg viewBox="0 0 200 200" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40 30C40 80 160 80 160 30" stroke="#1D3156" stroke-width="3"/><path d="M100 80L118 112C118 124 110 132 100 132C90 132 82 124 82 112L100 80Z" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3" stroke-linejoin="round"/></svg>` },
-  { id: 2, name: "Cascade Band", price: "$95", tag: "Sterling silver", description: "Inspired by flowing shoreline textures, symbolizing continuous movement and adaptability.", svg: `<svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="80" cy="90" r="50" stroke="#1D3156" stroke-width="4"/><circle cx="80" cy="38" r="14" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3"/></svg>` },
-  { id: 3, name: "Windfall Drops", price: "$140", tag: "Freshwater pearl", description: "Minimalist drop design created to reflect quiet reflection and organic balance.", svg: `<svg viewBox="0 0 160 160" width="60%" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60 20C60 34 74 34 74 20" stroke="#1D3156" stroke-width="3"/><ellipse cx="67" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/><path d="M100 20C100 34 114 34 114 20" stroke="#1D3156" stroke-width="3"/><ellipse cx="107" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/></svg>` },
-  { id: 4, name: "Low Tide Cuff", price: "$165", tag: "Brushed gold", description: "A grounded structural piece capturing the steady rhythm of receding tides.", svg: `<svg viewBox="0 0 160 160" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="80" cy="80" rx="58" ry="40" stroke="#1D3156" stroke-width="4"/><path d="M22 80C22 60 40 46 62 44" stroke="#FED6CE" stroke-width="2" stroke-dasharray="2 6"/></svg>` },
-  { id: 5, name: "Shoreline Chain", price: "$120", tag: "14k gold vermeil", description: "Delicate yet durable links crafted for everyday versatility and timeless wear.", svg: `<svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40 40C40 90 120 90 120 40" stroke="#1D3156" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/><circle cx="80" cy="98" r="7" fill="#FED6CE"/></svg>` },
-  { id: 6, name: "Aura Pendant", price: "$260", tag: "925 Silver", description: "A centered geometric focal piece designed to represent personal clarity.", svg: `<svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="80" cy="80" r="45" stroke="#1D3156" stroke-width="3"/><polygon points="80,45 105,95 55,95" fill="#B0CBE6" stroke="#FED6CE" stroke-width="2"/></svg>` },
-  { id: 7, name: "Solitaire Ring", price: "$420", tag: "14k gold", description: "Classic single-stone aesthetic refined with soft, modern proportions.", svg: `<svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="80" cy="90" r="48" stroke="#1D3156" stroke-width="4"/><rect x="70" y="32" width="20" height="20" fill="#FED6CE" stroke="#1D3156" stroke-width="2"/></svg>` },
-  { id: 8, name: "Minimal Studs", price: "$120", tag: "Sterling silver", description: "Subtle everyday accents built with precision geometric lines.", svg: `<svg viewBox="0 0 160 160" width="60%" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="55" cy="80" r="18" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/><circle cx="105" cy="80" r="18" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/></svg>` },
-  { id: 9, name: "Twisted Hoop", price: "$195", tag: "14k gold vermeil", description: "A sculpted form balancing classic curves with bold architectural lines.", svg: `<svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="80" cy="80" r="46" stroke="#1D3156" stroke-width="6" stroke-dasharray="12 6"/></svg>` },
-  { id: 10, name: "Oceania Choker", price: "$380", tag: "Freshwater pearl", description: "Hand-selected freshwater elements representing connection to natural forms.", svg: `<svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30 60C30 110 130 110 130 60" stroke="#1D3156" stroke-width="3"/><circle cx="80" cy="96" r="12" fill="#FED6CE" stroke="#1D3156" stroke-width="2"/></svg>` }
-];
+  const products = [
+    { id: 1, name: "Cat Head Pendant", price: "$600", tag: "925 Silver, ready-made", description: "Designed to capture subtle fluid silhouettes, this piece represents independence and instinct.", svg: `<svg viewBox="0 0 200 200" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40 30C40 80 160 80 160 30" stroke="#1D3156" stroke-width="3"/><path d="M100 80L118 112C118 124 110 132 100 132C90 132 82 124 82 112L100 80Z" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3" stroke-linejoin="round"/></svg>` },
+    { id: 2, name: "Cascade Band", price: "$95", tag: "Sterling silver", description: "Inspired by flowing shoreline textures, symbolizing continuous movement and adaptability.", svg: `<svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="80" cy="90" r="50" stroke="#1D3156" stroke-width="4"/><circle cx="80" cy="38" r="14" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3"/></svg>` },
+    { id: 3, name: "Windfall Drops", price: "$140", tag: "Freshwater pearl", description: "Minimalist drop design created to reflect quiet reflection and organic balance.", svg: `<svg viewBox="0 0 160 160" width="60%" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60 20C60 34 74 34 74 20" stroke="#1D3156" stroke-width="3"/><ellipse cx="67" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/><path d="M100 20C100 34 114 34 114 20" stroke="#1D3156" stroke-width="3"/><ellipse cx="107" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/></svg>` },
+    { id: 4, name: "Low Tide Cuff", price: "$165", tag: "Brushed gold", description: "A grounded structural piece capturing the steady rhythm of receding tides.", svg: `<svg viewBox="0 0 160 160" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="80" cy="80" rx="58" ry="40" stroke="#1D3156" stroke-width="4"/><path d="M22 80C22 60 40 46 62 44" stroke="#FED6CE" stroke-width="2" stroke-dasharray="2 6"/></svg>` },
+    { id: 5, name: "Shoreline Chain", price: "$120", tag: "14k gold vermeil", description: "Delicate yet durable links crafted for everyday versatility and timeless wear.", svg: `<svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40 40C40 90 120 90 120 40" stroke="#1D3156" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/><circle cx="80" cy="98" r="7" fill="#FED6CE"/></svg>` }
+  ];
 
-let cart = [];
+  let cart = [];
 
-// Navigation & View Routing
-function showView(viewName) {
-  const homeView = document.getElementById('home-view');
-  const collectionView = document.getElementById('collection-view');
-  const productDetailView = document.getElementById('product-detail-view');
-  const checkoutView = document.getElementById('checkout-view');
+  function showView(viewName) {
+    document.getElementById('home-view').style.display = 'none';
+    document.getElementById('collection-view').style.display = 'none';
+    document.getElementById('product-detail-view').style.display = 'none';
+    document.getElementById('checkout-view').style.display = 'none';
 
-  if (homeView) homeView.style.display = 'none';
-  if (collectionView) collectionView.style.display = 'none';
-  if (productDetailView) productDetailView.style.display = 'none';
-  if (checkoutView) checkoutView.style.display = 'none';
-
-  if (viewName === 'collection') {
-    if (collectionView) collectionView.style.display = 'block';
-    renderCollection();
-  } else if (viewName === 'product-detail') {
-    if (productDetailView) productDetailView.style.display = 'block';
-  } else if (viewName === 'checkout') {
-    if (checkoutView) checkoutView.style.display = 'block';
-    renderCheckoutSummary();
-  } else {
-    if (homeView) homeView.style.display = 'block';
-  }
-
-  window.scrollTo(0, 0);
-}
-
-// Product Rendering & Details
-function renderCollection() {
-  const gridContainer = document.getElementById("product-grid");
-  if (!gridContainer || gridContainer.children.length > 0) return;
-
-  gridContainer.innerHTML = products.map(product => `
-    <div class="piece-card" onclick="openProductDetail(${product.id})" style="cursor: pointer;">
-      <div class="piece-art">
-        ${product.svg}
-      </div>
-      <div class="piece-meta">
-        <div>
-          <p class="piece-name">${product.name}</p>
-          <p class="piece-tag">${product.tag}</p>
-        </div>
-        <p class="piece-price">${product.price}</p>
-      </div>
-    </div>
-  `).join('');
-}
-
-function openProductDetail(productId) {
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
-
-  document.getElementById('detail-name').textContent = product.name;
-  document.getElementById('detail-price').textContent = product.price;
-  document.getElementById('detail-material').textContent = product.tag;
-  document.getElementById('detail-description').textContent = product.description;
-  document.getElementById('detail-media').innerHTML = product.svg;
-
-  const addBtn = document.getElementById('add-to-cart-btn');
-  if (addBtn) {
-    addBtn.setAttribute('onclick', `addToCart(${product.id})`);
-  }
-
-  showView('product-detail');
-}
-
-// Newsletter Subscription
-function handleSubscribe(event) {
-  event.preventDefault();
-  const emailInput = document.getElementById('email');
-  const messageEl = document.getElementById('subscribe-message');
-  const submitBtn = event.target.querySelector('button');
-  const email = emailInput ? emailInput.value : '';
-
-  if (email) {
-    if (submitBtn) submitBtn.textContent = 'Subscribed!';
-    if (messageEl) {
-      messageEl.textContent = `Thank you for subscribing with ${email}!`;
-      messageEl.style.display = 'block';
+    if (viewName === 'collection') {
+      document.getElementById('collection-view').style.display = 'block';
+      renderCollection();
+    } else if (viewName === 'product-detail') {
+      document.getElementById('product-detail-view').style.display = 'block';
+    } else if (viewName === 'checkout') {
+      document.getElementById('checkout-view').style.display = 'block';
+      renderCheckoutSummary();
+    } else {
+      document.getElementById('home-view').style.display = 'block';
     }
-    if (emailInput) emailInput.value = '';
-
-    setTimeout(() => {
-      if (submitBtn) submitBtn.textContent = 'Subscribe';
-      if (messageEl) messageEl.style.display = 'none';
-    }, 5000);
-  }
-}
-
-// Cart Drawer Operations
-function toggleCart() {
-  const drawer = document.getElementById('cart-drawer');
-  const overlay = document.getElementById('cart-overlay');
-  if (drawer) drawer.classList.toggle('open');
-  if (overlay) overlay.classList.toggle('open');
-}
-
-function addToCart(productId) {
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
-
-  const existingItem = cart.find(item => item.id === productId);
-  if (existingItem) {
-    existingItem.quantity += 1;
-  } else {
-    cart.push({ ...product, quantity: 1 });
+    window.scrollTo(0, 0);
   }
 
-  updateCartUI();
-  toggleCart();
-}
+  function renderCollection() {
+    const gridContainer = document.getElementById("product-grid");
+    if (!gridContainer || gridContainer.children.length > 0) return;
 
-function changeQuantity(productId, delta) {
-  const item = cart.find(i => i.id === productId);
-  if (!item) return;
-
-  item.quantity += delta;
-  if (item.quantity <= 0) {
-    cart = cart.filter(i => i.id !== productId);
+    gridContainer.innerHTML = products.map(product => `
+      <div class="piece-card" onclick="openProductDetail(${product.id})" style="cursor: pointer;">
+        <div class="piece-art">${product.svg}</div>
+        <div class="piece-meta">
+          <div>
+            <p class="piece-name">${product.name}</p>
+            <p class="piece-tag">${product.tag}</p>
+          </div>
+          <p class="piece-price">${product.price}</p>
+        </div>
+      </div>
+    `).join('');
   }
 
-  updateCartUI();
-}
+  function openProductDetail(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
 
-function updateCartUI() {
-  const cartItemsContainer = document.getElementById('cart-items');
-  const cartCountEl = document.getElementById('cart-count');
-  const cartTotalEl = document.getElementById('cart-total');
+    document.getElementById('detail-name').textContent = product.name;
+    document.getElementById('detail-price').textContent = product.price;
+    document.getElementById('detail-material').textContent = product.tag;
+    document.getElementById('detail-description').textContent = product.description;
+    document.getElementById('detail-media').innerHTML = product.svg;
 
-  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  if (cartCountEl) cartCountEl.textContent = totalCount;
-
-  if (cart.length === 0) {
-    if (cartItemsContainer) cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
-    if (cartTotalEl) cartTotalEl.textContent = '$0.00';
-    return;
+    document.getElementById('add-to-cart-btn').setAttribute('onclick', `addToCart(${product.id})`);
+    showView('product-detail');
   }
 
-  let totalCost = 0;
-  if (cartItemsContainer) {
+  function toggleCart() {
+    document.getElementById('cart-drawer').classList.toggle('open');
+    document.getElementById('cart-overlay').classList.toggle('open');
+  }
+
+  function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    const existingItem = cart.find(item => item.id === productId);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.push({ ...product, quantity: 1 });
+    }
+
+    updateCartUI();
+    toggleCart();
+  }
+
+  function changeQuantity(productId, delta) {
+    const item = cart.find(i => i.id === productId);
+    if (!item) return;
+
+    item.quantity += delta;
+    if (item.quantity <= 0) {
+      cart = cart.filter(i => i.id !== productId);
+    }
+    updateCartUI();
+  }
+
+  function updateCartUI() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartCountEl = document.getElementById('cart-count');
+    const cartTotalEl = document.getElementById('cart-total');
+
+    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (cartCountEl) cartCountEl.textContent = totalCount;
+
+    if (cart.length === 0) {
+      cartItemsContainer.innerHTML = '<p style="color: #666; text-align: center; margin-top: 40px;">Your cart is empty.</p>';
+      if (cartTotalEl) cartTotalEl.textContent = '$0.00';
+      return;
+    }
+
+    let totalCost = 0;
     cartItemsContainer.innerHTML = cart.map(item => {
-      const numericPrice = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
-      const itemTotal = numericPrice * item.quantity;
-      totalCost += itemTotal;
+      const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
+      totalCost += price * item.quantity;
       return `
         <div class="cart-item">
           <div>
-            <h4>${item.name}</h4>
-            <p>${item.price} × ${item.quantity}</p>
+            <h4 style="font-size: 0.95rem; color: #1D3156;">${item.name}</h4>
+            <p style="font-size: 0.85rem; color: #666;">${item.price} × ${item.quantity}</p>
           </div>
           <div class="cart-item-qty">
             <button onclick="changeQuantity(${item.id}, -1)">-</button>
@@ -1468,136 +1420,138 @@ function updateCartUI() {
         </div>
       `;
     }).join('');
+
+    if (cartTotalEl) cartTotalEl.textContent = `$${totalCost.toFixed(2)}`;
   }
 
-  if (cartTotalEl) cartTotalEl.textContent = `$${totalCost.toFixed(2)}`;
-}
-
-// Full Checkout Transition
-function goToCheckout() {
-  if (cart.length === 0) {
-    alert("Your cart is empty!");
-    return;
+  function goToCheckout() {
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+    toggleCart();
+    showView('checkout');
   }
-  const drawer = document.getElementById('cart-drawer');
-  const overlay = document.getElementById('cart-overlay');
-  if (drawer) drawer.classList.remove('open');
-  if (overlay) overlay.classList.remove('open');
 
-  showView('checkout');
-}
+  function renderCheckoutSummary() {
+    const summaryContainer = document.getElementById('checkout-summary-items');
+    if (!summaryContainer) return;
 
-function renderCheckoutSummary() {
-  const summaryContainer = document.getElementById('checkout-summary-items');
-  if (!summaryContainer) return;
-
-  summaryContainer.innerHTML = cart.map(item => {
-    const numericPrice = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
-    const itemTotal = numericPrice * item.quantity;
-    return `
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div>
-          <p style="font-weight: bold; margin: 0; font-size: 0.95rem;">${item.name}</p>
-          <p style="font-size: 0.85rem; color: #666; margin: 2px 0 0 0;">Qty: ${item.quantity} × ${item.price}</p>
+    summaryContainer.innerHTML = cart.map(item => {
+      const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
+      return `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <p style="font-weight: 600; margin: 0; font-size: 0.9rem;">${item.name}</p>
+            <p style="font-size: 0.8rem; color: #666; margin: 0;">Qty: ${item.quantity}</p>
+          </div>
+          <strong>$${(price * item.quantity).toFixed(2)}</strong>
         </div>
-        <strong>$${itemTotal.toFixed(2)}</strong>
-      </div>
-    `;
-  }).join('');
+      `;
+    }).join('');
 
-  updateCheckoutTotals();
-}
-
-function updateCheckoutTotals() {
-  let subtotal = 0;
-  cart.forEach(item => {
-    const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
-    subtotal += price * item.quantity;
-  });
-
-  const selectedShipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 15);
-  const grandTotal = subtotal + selectedShipping;
-
-  const subTotalEl = document.getElementById('co-subtotal');
-  const shippingEl = document.getElementById('co-shipping');
-  const grandTotalEl = document.getElementById('co-grand-total');
-
-  if (subTotalEl) subTotalEl.textContent = `$${subtotal.toFixed(2)}`;
-  if (shippingEl) shippingEl.textContent = `$${selectedShipping.toFixed(2)}`;
-  if (grandTotalEl) grandTotalEl.textContent = `$${grandTotal.toFixed(2)}`;
-}
-
-// Order Submission
-async function handleFinalOrder(event) {
-  event.preventDefault();
-
-  const name = document.getElementById('co-name').value.trim();
-  const email = document.getElementById('co-email').value.trim();
-  const phone = document.getElementById('co-phone').value.trim();
-  const address = document.getElementById('co-address').value.trim();
-  const city = document.getElementById('co-city').value.trim();
-  const zip = document.getElementById('co-zip').value.trim();
-
-  if (!name || !email || !phone || !address || !city || !zip) {
-    alert("Please fill in all required fields: Name, Email, Phone, Address, City, and ZIP Code.");
-    return;
+    updateCheckoutTotals();
   }
 
-  const submitBtn = document.getElementById('place-order-btn');
-  const orderMsgEl = document.getElementById('order-confirmation-message');
-
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Processing Order...';
-  if (orderMsgEl) orderMsgEl.style.display = 'none';
-
-  const shippingCost = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 15);
-
-  let subtotal = 0;
-  let itemsText = '';
-  cart.forEach((item, i) => {
-    const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
-    const itemTotal = price * item.quantity;
-    subtotal += itemTotal;
-    itemsText += `${i + 1}. ${item.name} (${item.tag}) × ${item.quantity} — $${itemTotal.toFixed(2)}\n`;
-  });
-
-  const grandTotal = subtotal + shippingCost;
-
-  const BOT_TOKEN = "8524468286:AAFHPDF71AFPpSlHiFzwpBVCgY_x-1BEJsY";
-  const CHAT_ID = "1375987674";
-
-  let telegramMsg = `🛍️ *NEW CHECKOUT ORDER*\n\n`;
-  telegramMsg += `👤 *Customer:* ${name}\n`;
-  telegramMsg += `📧 *Email:* ${email}\n`;
-  telegramMsg += `📞 *Phone:* ${phone}\n`;
-  telegramMsg += `📍 *Address:* ${address}, ${city} ${zip}\n\n`;
-  telegramMsg += `*Items Ordered:*\n${itemsText}\n`;
-  telegramMsg += `*Subtotal:* $${subtotal.toFixed(2)}\n`;
-  telegramMsg += `*Shipping:* $${shippingCost.toFixed(2)}\n`;
-  telegramMsg += `*Grand Total:* $${grandTotal.toFixed(2)}`;
-
-  try {
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: CHAT_ID, text: telegramMsg, parse_mode: 'Markdown' })
+  function updateCheckoutTotals() {
+    let subtotal = 0;
+    cart.forEach(item => {
+      const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
+      subtotal += price * item.quantity;
     });
 
-    cart = [];
-    updateCartUI();
-    document.getElementById('checkout-form').reset();
+    const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 15);
+    const grandTotal = subtotal + shipping;
 
-    if (orderMsgEl) {
-      orderMsgEl.textContent = `Thank you ${name}! Your order has been placed successfully.`;
-      orderMsgEl.style.display = 'block';
-    }
-  } catch (err) {
-    alert("There was an issue submitting your order. Please try again.");
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Complete Order & Pay';
+    document.getElementById('co-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+    document.getElementById('co-shipping').textContent = `$${shipping.toFixed(2)}`;
+    document.getElementById('co-grand-total').textContent = `$${grandTotal.toFixed(2)}`;
   }
-}
+
+  async function handleFinalOrder(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('co-name').value.trim();
+    const email = document.getElementById('co-email').value.trim();
+    const phone = document.getElementById('co-phone').value.trim();
+    const address = document.getElementById('co-address').value.trim();
+    const city = document.getElementById('co-city').value.trim();
+    const zip = document.getElementById('co-zip').value.trim();
+
+    // Mandatory fields check
+    if (!name || !email || !phone || !address || !city || !zip) {
+      alert("Please fill in all required fields: Name, Email, Phone, Address, City, and ZIP Code.");
+      return;
+    }
+
+    const submitBtn = document.getElementById('place-order-btn');
+    const orderMsgEl = document.getElementById('order-confirmation-message');
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processing Order...';
+    if (orderMsgEl) orderMsgEl.style.display = 'none';
+
+    const shippingCost = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 15);
+
+    let subtotal = 0;
+    let itemsText = '';
+    cart.forEach((item, i) => {
+      const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
+      const itemTotal = price * item.quantity;
+      subtotal += itemTotal;
+      itemsText += `${i + 1}. ${item.name} (${item.tag}) × ${item.quantity} — $${itemTotal.toFixed(2)}\n`;
+    });
+
+    const grandTotal = subtotal + shippingCost;
+
+    try {
+      const response = await fetch('/api/send-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, email, phone, address, city, zip,
+          itemsText,
+          subtotal: subtotal.toFixed(2),
+          shippingCost: shippingCost.toFixed(2),
+          grandTotal: grandTotal.toFixed(2)
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || 'Failed to place order');
+      }
+
+      // Empty cart and reset form
+      cart = [];
+      updateCartUI();
+      document.getElementById('checkout-form').reset();
+
+      // Inline confirmation on page
+      if (orderMsgEl) {
+        orderMsgEl.textContent = `Thank you ${name}! Your order has been placed successfully.`;
+        orderMsgEl.style.display = 'block';
+      }
+    } catch (err) {
+      alert("There was an issue submitting your order. Please try again.");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Complete Order & Pay';
+    }
+  }
+
+  function handleSubscribe(event) {
+    event.preventDefault();
+    const emailInput = document.getElementById('email');
+    const messageEl = document.getElementById('subscribe-message');
+    if (emailInput.value) {
+      messageEl.textContent = `Thank you for subscribing!`;
+      messageEl.style.display = 'block';
+      emailInput.value = '';
+      setTimeout(() => { messageEl.style.display = 'none'; }, 4000);
+    }
+  }
 </script>
   
 </body>
