@@ -1232,6 +1232,7 @@ footer {
     </div>
 
     <button type="submit" id="place-order-btn" class="checkout-btn">Complete Order & Pay</button>
+<p id="order-confirmation-message" style="display: none; margin-top: 15px; color: var(--navy); font-weight: 600; text-align: center;"></p>
   </form>
 </div>
 
@@ -1530,28 +1531,34 @@ function updateCheckoutTotals() {
 async function handleFinalOrder(event) {
   event.preventDefault();
 
-  const submitBtn = document.getElementById('place-order-btn');
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Processing Order...';
+  const name = document.getElementById('co-name').value.trim();
+  const email = document.getElementById('co-email').value.trim();
+  const phone = document.getElementById('co-phone').value.trim();
+  const address = document.getElementById('co-address').value.trim();
+  const city = document.getElementById('co-city').value.trim();
+  const zip = document.getElementById('co-zip').value.trim();
+
+  if (!name || !email || !phone || !address || !city || !zip) {
+    alert("Please fill in all required fields: Name, Email, Phone, Address, City, and ZIP Code.");
+    return;
   }
 
-  const name = document.getElementById('co-name')?.value || '';
-  const email = document.getElementById('co-email')?.value || '';
-  const phone = document.getElementById('co-phone')?.value || '';
-  const address = document.getElementById('co-address')?.value || '';
-  const city = document.getElementById('co-city')?.value || '';
-  const zip = document.getElementById('co-zip')?.value || '';
+  const submitBtn = document.getElementById('place-order-btn');
+  const orderMsgEl = document.getElementById('order-confirmation-message');
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Processing Order...';
+  if (orderMsgEl) orderMsgEl.style.display = 'none';
 
   const shippingCost = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 15);
 
   let subtotal = 0;
-  let itemsListText = '';
+  let itemsText = '';
   cart.forEach((item, i) => {
     const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
     const itemTotal = price * item.quantity;
     subtotal += itemTotal;
-    itemsListText += `${i + 1}. ${item.name} (${item.tag}) × ${item.quantity} — $${itemTotal.toFixed(2)}\n`;
+    itemsText += `${i + 1}. ${item.name} (${item.tag}) × ${item.quantity} — $${itemTotal.toFixed(2)}\n`;
   });
 
   const grandTotal = subtotal + shippingCost;
@@ -1559,14 +1566,14 @@ async function handleFinalOrder(event) {
   const BOT_TOKEN = "8524468286:AAFHPDF71AFPpSlHiFzwpBVCgY_x-1BEJsY";
   const CHAT_ID = "1375987674";
 
-  let telegramMsg = `🛍️ *NEW FULL CHECKOUT ORDER*\n\n`;
+  let telegramMsg = `🛍️ *NEW CHECKOUT ORDER*\n\n`;
   telegramMsg += `👤 *Customer:* ${name}\n`;
   telegramMsg += `📧 *Email:* ${email}\n`;
   telegramMsg += `📞 *Phone:* ${phone}\n`;
-  telegramMsg += `📍 *Shipping Address:* ${address}, ${city} ${zip}\n\n`;
-  telegramMsg += `*Ordered Items:*\n${itemsListText}\n`;
+  telegramMsg += `📍 *Address:* ${address}, ${city} ${zip}\n\n`;
+  telegramMsg += `*Items Ordered:*\n${itemsText}\n`;
   telegramMsg += `*Subtotal:* $${subtotal.toFixed(2)}\n`;
-  telegramMsg += `*Shipping Fee:* $${shippingCost.toFixed(2)}\n`;
+  telegramMsg += `*Shipping:* $${shippingCost.toFixed(2)}\n`;
   telegramMsg += `*Grand Total:* $${grandTotal.toFixed(2)}`;
 
   try {
@@ -1576,30 +1583,19 @@ async function handleFinalOrder(event) {
       body: JSON.stringify({ chat_id: CHAT_ID, text: telegramMsg, parse_mode: 'Markdown' })
     });
 
-    if (typeof emailjs !== 'undefined') {
-      emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-        to_name: name,
-        to_email: email,
-        total_amount: `$${grandTotal.toFixed(2)}`,
-        order_details: itemsListText,
-        shipping_address: `${address}, ${city} ${zip}`
-      });
-    }
-
     cart = [];
     updateCartUI();
-    const form = document.getElementById('checkout-form');
-    if (form) form.reset();
+    document.getElementById('checkout-form').reset();
 
-    alert(`Thank you ${name}! Your order has been placed successfully. A confirmation message has been sent to ${email}.`);
-    showView('home');
-  } catch (err) {
-    alert("There was an issue processing your order. Please try again.");
-  } finally {
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Complete Order & Pay';
+    if (orderMsgEl) {
+      orderMsgEl.textContent = `Thank you ${name}! Your order has been placed successfully.`;
+      orderMsgEl.style.display = 'block';
     }
+  } catch (err) {
+    alert("There was an issue submitting your order. Please try again.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Complete Order & Pay';
   }
 }
 </script>
