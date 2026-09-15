@@ -1331,27 +1331,82 @@ footer {
 <div id="checkout-view" style="display: none; max-width: 600px; margin: 40px auto; padding: 20px;">
   <h2>Checkout Details</h2>
   
-  <form id="checkout-form" onsubmit="handleFinalOrder(event)">
-    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
-      <input type="text" id="co-name" placeholder="Full Name" required style="padding: 12px;" />
-      <input type="email" id="co-email" placeholder="Email Address" required style="padding: 12px;" />
-      <input type="tel" id="co-phone" placeholder="Phone Number" required style="padding: 12px;" />
-      <input type="text" id="co-address" placeholder="Delivery Address" required style="padding: 12px;" />
-      <input type="text" id="co-city" placeholder="City" required style="padding: 12px;" />
-      <input type="text" id="co-zip" placeholder="ZIP Code" required style="padding: 12px;" />
+<form id="checkout-form" onsubmit="handleFinalOrder(event)">
+  <!-- First and Last Name -->
+  <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+    <div style="flex: 1;">
+      <label for="co-first-name" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">First Name *</label>
+      <input type="text" id="co-first-name" required placeholder="First name" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
     </div>
-
-    <!-- Order Totals -->
-    <div style="border-top: 1px solid #eee; padding-top: 15px; margin-bottom: 20px;">
-      <div id="checkout-summary-items"></div>
-      <p style="display: flex; justify-content: space-between;"><span>Subtotal:</span> <span id="co-subtotal">$0.00</span></p>
-      <p style="display: flex; justify-content: space-between;"><span>Shipping:</span> <span id="co-shipping">$15.00</span></p>
-      <h3 style="display: flex; justify-content: space-between;"><span>Grand Total:</span> <span id="co-grand-total">$0.00</span></h3>
+    <div style="flex: 1;">
+      <label for="co-last-name" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Last Name *</label>
+      <input type="text" id="co-last-name" required placeholder="Last name" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
     </div>
+  </div>
 
-    <button type="submit" id="place-order-btn" class="checkout-btn">Complete Order & Pay</button>
-<p id="order-confirmation-message" style="display: none; margin-top: 15px; color: var(--navy); font-weight: 600; text-align: center;"></p>
-  </form>
+  <!-- Email -->
+  <div style="margin-bottom: 12px;">
+    <label for="co-email" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Email Address *</label>
+    <input type="email" id="co-email" required placeholder="you@example.com" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+  </div>
+
+  <!-- Phone (Requires exactly 11 digits) -->
+  <div style="margin-bottom: 12px;">
+    <label for="co-phone" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Phone Number (11 Digits) *</label>
+    <input type="tel" id="co-phone" required pattern="[0-9]{11}" maxlength="11" minlength="11" placeholder="07XXXXXXXXX" title="Please enter a valid 11-digit phone number" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+  </div>
+
+  <!-- Address -->
+  <div style="margin-bottom: 12px;">
+    <label for="co-address" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Street Address *</label>
+    <input type="text" id="co-address" required placeholder="District, Street, House / Apt No." style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+  </div>
+
+  <!-- City / Governorate Dropdown -->
+  <div style="margin-bottom: 16px;">
+    <label for="co-city" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">City / Governorate *</label>
+    <select id="co-city" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff;">
+      <option value="" disabled selected>Select your city</option>
+      <option value="Baghdad">Baghdad</option>
+      <option value="Basra">Basra</option>
+      <option value="Erbil">Erbil</option>
+      <option value="Sulaymaniyah">Sulaymaniyah</option>
+      <option value="Duhok">Duhok</option>
+      <option value="Nineveh / Mosul">Nineveh (Mosul)</option>
+      <option value="Kirkuk">Kirkuk</option>
+      <option value="Najaf">Najaf</option>
+      <option value="Karbala">Karbala</option>
+      <option value="Anbar">Anbar</option>
+      <option value="Babel / Hillah">Babel (Hillah)</option>
+      <option value="Diyala">Diyala</option>
+      <option value="Thi Qar / Nasiriyah">Thi Qar (Nasiriyah)</option>
+      <option value="Maysan / Amarah">Maysan (Amarah)</option>
+      <option value="Al-Muthanna / Samawah">Al-Muthanna (Samawah)</option>
+      <option value="Al-Qadisiyyah / Diwaniyah">Al-Qadisiyyah (Diwaniyah)</option>
+      <option value="Wasit / Kut">Wasit (Kut)</option>
+      <option value="Halabja">Halabja</option>
+    </select>
+  </div>
+
+  <!-- Shipping Choice -->
+  <div style="margin-bottom: 20px;">
+    <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">Shipping Method *</label>
+    <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; cursor: pointer;">
+      <input type="radio" name="shipping" value="15" checked onchange="updateCheckoutTotals()">
+      Standard Delivery ($15.00)
+    </label>
+    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+      <input type="radio" name="shipping" value="25" onchange="updateCheckoutTotals()">
+      Express Delivery ($25.00)
+    </label>
+  </div>
+
+  <button type="submit" id="place-order-btn" style="width: 100%; padding: 12px; background: #1D3156; color: #fff; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">
+    Complete Order & Pay
+  </button>
+  
+  <p id="order-confirmation-message" style="display: none; color: #2e7d32; text-align: center; margin-top: 15px; font-weight: 600;"></p>
+</form>
 </div>
 
 <footer>
@@ -1661,18 +1716,26 @@ footer {
 async function handleFinalOrder(event) {
     event.preventDefault();
 
-    const name = document.getElementById('co-name').value.trim();
+    const firstName = document.getElementById('co-first-name').value.trim();
+    const lastName = document.getElementById('co-last-name').value.trim();
     const email = document.getElementById('co-email').value.trim();
     const phone = document.getElementById('co-phone').value.trim();
     const address = document.getElementById('co-address').value.trim();
-    const city = document.getElementById('co-city').value.trim();
-    const zip = document.getElementById('co-zip').value.trim();
+    const city = document.getElementById('co-city').value;
 
-    if (!name || !email || !phone || !address || !city || !zip) {
-      alert("Please fill in all required fields: Name, Email, Phone, Address, City, and ZIP Code.");
+    if (!firstName || !lastName || !email || !phone || !address || !city) {
+      alert("Please fill in all required fields.");
       return;
     }
 
+    // 11-digit Iraqi number check
+    const cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length !== 11) {
+      alert("Please enter a valid 11-digit phone number (e.g. 07XXXXXXXXX).");
+      return;
+    }
+
+    const fullName = `${firstName} ${lastName}`;
     const submitBtn = document.getElementById('place-order-btn');
     const orderMsgEl = document.getElementById('order-confirmation-message');
 
@@ -1706,12 +1769,12 @@ async function handleFinalOrder(event) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name,
+          name: fullName,
           email,
-          phone,
+          phone: cleanPhone,
           address,
           city,
-          zip,
+          zip: '',
           itemsText,
           subtotal: subtotal.toFixed(2),
           shippingCost: shippingCost.toFixed(2),
@@ -1730,7 +1793,7 @@ async function handleFinalOrder(event) {
       document.getElementById('checkout-form').reset();
 
       if (orderMsgEl) {
-        orderMsgEl.textContent = `Thank you ${name}! Your order has been placed successfully.`;
+        orderMsgEl.textContent = `Thank you ${firstName}! Your order has been placed successfully.`;
         orderMsgEl.style.display = 'block';
       }
     } catch (err) {
