@@ -1658,7 +1658,7 @@ footer {
   }
 
   // Vercel Serverless Function Dispatch
-  async function handleFinalOrder(event) {
+async function handleFinalOrder(event) {
     event.preventDefault();
 
     const name = document.getElementById('co-name').value.trim();
@@ -1683,20 +1683,20 @@ footer {
     const shippingCost = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 15);
 
     let subtotal = 0;
-    const orderItems = cart.map((item, i) => {
+    let itemsText = '';
+
+    cart.forEach((item, i) => {
       const price = parseFloat(String(item.price).replace(/[^0-9.-]+/g, '')) || 0;
       const itemTotal = price * item.quantity;
       subtotal += itemTotal;
 
-      return {
-        index: i + 1,
-        name: item.name,
-        tag: item.tag,
-        quantity: item.quantity,
-        priceDisplay: item.price,
-        itemTotalDisplay: item.price === "TBD" ? "TBD" : `$${itemTotal.toFixed(2)}`,
-        description: item.description || ''
-      };
+      const displayItemPrice = item.price === "TBD" ? "TBD" : `$${itemTotal.toFixed(2)}`;
+      itemsText += `${i + 1}. ${item.name} (${item.tag}) × ${item.quantity} — ${displayItemPrice}\n`;
+
+      if (item.description) {
+        const safeDesc = item.description.replace(/[_*`\[\]]/g, '').replace(/\n/g, ' ');
+        itemsText += `   └ Details: ${safeDesc}\n`;
+      }
     });
 
     const grandTotal = subtotal + shippingCost;
@@ -1709,8 +1709,10 @@ footer {
           name,
           email,
           phone,
-          address: `${address}, ${city} ${zip}`,
-          items: orderItems,
+          address,
+          city,
+          zip,
+          itemsText,
           subtotal: subtotal.toFixed(2),
           shippingCost: shippingCost.toFixed(2),
           grandTotal: grandTotal.toFixed(2)
