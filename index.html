@@ -791,7 +791,72 @@ section {
   font-size: 0.85rem;
   font-weight: 600;
 }
+.custom-order-container {
+  max-width: 640px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
 
+.custom-order-card {
+  background: var(--paper-dim);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 40px 32px;
+  box-shadow: 0 4px 20px rgba(29, 49, 86, 0.04);
+}
+
+.custom-order-title {
+  font-size: 2rem;
+  color: var(--ink);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.custom-order-subtitle {
+  text-align: center;
+  color: var(--azure-mid);
+  font-size: 0.95rem;
+  margin-bottom: 28px;
+}
+
+.custom-form-group {
+  margin-bottom: 20px;
+}
+
+.custom-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+.custom-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.custom-input:focus {
+  border-color: var(--azure-mid);
+  box-shadow: 0 0 0 3px rgba(73, 104, 148, 0.15);
+}
+
+.price-note {
+  font-size: 0.85rem;
+  color: var(--azure-mid);
+  margin-top: 8px;
+  font-style: italic;
+}
 /* --- Footer & Checkout --- */
 .cart-footer {
   padding: 1.5rem 1.75rem;
@@ -1120,7 +1185,9 @@ footer {
         </div>
       </div>
       <div class="hero-actions" style="margin-top: 48px;">
-        <a href="#" class="btn btn-primary">Start a custom order</a>
+       <button onclick="showView('custom-order')" class="checkout-btn" style="margin-top: 20px; cursor: pointer;">
+  Start a Custom Order
+</button>
       </div>
     </div>
   </section>
@@ -1208,6 +1275,57 @@ footer {
     </div>
   </section>
 </div>
+  <!-- Custom Order View -->
+<section id="custom-order-view" style="display: none; max-width: 600px; margin: 0 auto; padding: 60px 20px;">
+  <h2 style="font-size: 2rem; color: #1D3156; margin-bottom: 20px; text-align: center;">Start a Custom Order</h2>
+  <form id="custom-order-form" onsubmit="addCustomToCart(event)" style="display: flex; flex-direction: column; gap: 20px;">
+
+    <!-- Piece Type Selection -->
+    <div>
+      <label for="co-piece-type" style="display: block; margin-bottom: 5px; font-weight: 600; color: #1D3156;">What kind of piece?</label>
+      <select id="co-piece-type" onchange="toggleOtherInput()" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 1rem;">
+        <option value="" disabled selected>Select a piece...</option>
+        <option value="Necklace">Necklace</option>
+        <option value="Ring">Ring</option>
+        <option value="Pendant">Pendant</option>
+        <option value="Bracelet">Bracelet</option>
+        <option value="Earring">Earring</option>
+        <option value="Nose Ring">Nose Ring</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <!-- Hidden "Other" Text Input -->
+    <div id="co-other-wrapper" style="display: none;">
+      <label for="co-other-type" style="display: block; margin-bottom: 5px; font-weight: 600; color: #1D3156;">Please specify</label>
+      <input type="text" id="co-other-type" placeholder="e.g. Brooch, Cufflinks" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 1rem;">
+    </div>
+
+    <!-- Description Textarea -->
+    <div>
+      <label for="co-description" style="display: block; margin-bottom: 5px; font-weight: 600; color: #1D3156;">Describe your vision</label>
+      <textarea id="co-description" rows="5" required placeholder="Tell us about the design, dimensions, or your inspiration..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 1rem; resize: vertical;"></textarea>
+    </div>
+
+    <!-- Material Selection -->
+    <div>
+      <label for="co-material" style="display: block; margin-bottom: 5px; font-weight: 600; color: #1D3156;">Material</label>
+      <select id="co-material" required style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 1rem;">
+        <option value="" disabled selected>Select a material...</option>
+        <option value="Silver 925">Silver 925</option>
+        <option value="Gold 24">Gold 24</option>
+        <option value="Gold 21">Gold 21</option>
+        <option value="Gold 18">Gold 18</option>
+        <option value="Platinum">Platinum</option>
+        <option value="Stainless Steel">Stainless Steel</option>
+      </select>
+      <p style="font-size: 0.9rem; color: #666; margin-top: 8px; font-weight: 500;">(Price will be calculated after modeling)</p>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" style="background: #1D3156; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 10px; transition: opacity 0.2s;">Add Custom Piece to Cart</button>
+  </form>
+</section>
 <!-- Full Checkout View -->
 <!-- DEDICATED CHECKOUT VIEW -->
 <div id="checkout-view" style="display: none; max-width: 600px; margin: 40px auto; padding: 20px;">
@@ -1305,11 +1423,15 @@ footer {
 
   let cart = [];
 
+  // Navigation & View Routing
   function showView(viewName) {
     document.getElementById('home-view').style.display = 'none';
     document.getElementById('collection-view').style.display = 'none';
     document.getElementById('product-detail-view').style.display = 'none';
     document.getElementById('checkout-view').style.display = 'none';
+
+    const customView = document.getElementById('custom-order-view');
+    if (customView) customView.style.display = 'none';
 
     if (viewName === 'collection') {
       document.getElementById('collection-view').style.display = 'block';
@@ -1319,12 +1441,60 @@ footer {
     } else if (viewName === 'checkout') {
       document.getElementById('checkout-view').style.display = 'block';
       renderCheckoutSummary();
+    } else if (viewName === 'custom-order') {
+      if (customView) customView.style.display = 'block';
     } else {
       document.getElementById('home-view').style.display = 'block';
     }
     window.scrollTo(0, 0);
   }
 
+  // Custom Order Toggle & Addition
+  function toggleOtherInput() {
+    const select = document.getElementById('co-piece-type');
+    const wrapper = document.getElementById('co-other-wrapper');
+    const otherInput = document.getElementById('co-other-type');
+
+    if (!select || !wrapper || !otherInput) return;
+
+    if (select.value === 'Other') {
+      wrapper.style.display = 'block';
+      otherInput.required = true;
+    } else {
+      wrapper.style.display = 'none';
+      otherInput.required = false;
+    }
+  }
+
+  function addCustomToCart(event) {
+    event.preventDefault();
+
+    const pieceTypeSelect = document.getElementById('co-piece-type').value;
+    const otherType = document.getElementById('co-other-type').value.trim();
+    const description = document.getElementById('co-description').value.trim();
+    const material = document.getElementById('co-material').value;
+
+    const pieceName = pieceTypeSelect === 'Other' ? otherType : pieceTypeSelect;
+
+    const customProduct = {
+      id: 'custom-' + Date.now(),
+      name: `Custom: ${pieceName}`,
+      price: "TBD",
+      tag: material,
+      description: description,
+      quantity: 1,
+      svg: `<svg viewBox="0 0 200 200" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="60" stroke="#1D3156" stroke-width="2" stroke-dasharray="6 6"/><text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#1D3156" font-family="sans-serif" font-size="14">Custom</text></svg>`
+    };
+
+    cart.push(customProduct);
+    updateCartUI();
+
+    document.getElementById('custom-order-form').reset();
+    toggleOtherInput();
+    toggleCart();
+  }
+
+  // Product Rendering & Details
   function renderCollection() {
     const gridContainer = document.getElementById("product-grid");
     if (!gridContainer || gridContainer.children.length > 0) return;
@@ -1357,16 +1527,19 @@ footer {
     showView('product-detail');
   }
 
+  // Cart Drawer Operations
   function toggleCart() {
-    document.getElementById('cart-drawer').classList.toggle('open');
-    document.getElementById('cart-overlay').classList.toggle('open');
+    const drawer = document.getElementById('cart-drawer');
+    const overlay = document.getElementById('cart-overlay');
+    if (drawer) drawer.classList.toggle('open');
+    if (overlay) overlay.classList.toggle('open');
   }
 
   function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
 
-    const existingItem = cart.find(item => item.id === productId);
+    const existingItem = cart.find(item => String(item.id) === String(productId));
     if (existingItem) {
       existingItem.quantity += 1;
     } else {
@@ -1378,14 +1551,18 @@ footer {
   }
 
   function changeQuantity(productId, delta) {
-    const item = cart.find(i => i.id === productId);
+    const item = cart.find(i => String(i.id) === String(productId));
     if (!item) return;
 
     item.quantity += delta;
     if (item.quantity <= 0) {
-      cart = cart.filter(i => i.id !== productId);
+      cart = cart.filter(i => String(i.id) !== String(productId));
     }
+
     updateCartUI();
+    if (document.getElementById('checkout-view')?.style.display === 'block') {
+      renderCheckoutSummary();
+    }
   }
 
   function updateCartUI() {
@@ -1397,39 +1574,46 @@ footer {
     if (cartCountEl) cartCountEl.textContent = totalCount;
 
     if (cart.length === 0) {
-      cartItemsContainer.innerHTML = '<p style="color: #666; text-align: center; margin-top: 40px;">Your cart is empty.</p>';
+      if (cartItemsContainer) cartItemsContainer.innerHTML = '<p style="color: #666; text-align: center; margin-top: 40px;">Your cart is empty.</p>';
       if (cartTotalEl) cartTotalEl.textContent = '$0.00';
       return;
     }
 
     let totalCost = 0;
-    cartItemsContainer.innerHTML = cart.map(item => {
-      const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
-      totalCost += price * item.quantity;
-      return `
-        <div class="cart-item">
-          <div>
-            <h4 style="font-size: 0.95rem; color: #1D3156;">${item.name}</h4>
-            <p style="font-size: 0.85rem; color: #666;">${item.price} × ${item.quantity}</p>
+    if (cartItemsContainer) {
+      cartItemsContainer.innerHTML = cart.map(item => {
+        const price = parseFloat(String(item.price).replace(/[^0-9.-]+/g, '')) || 0;
+        totalCost += price * item.quantity;
+        return `
+          <div class="cart-item">
+            <div>
+              <h4 style="font-size: 0.95rem; color: #1D3156;">${item.name}</h4>
+              <p style="font-size: 0.85rem; color: #666;">${item.price} × ${item.quantity}</p>
+            </div>
+            <div class="cart-item-qty">
+              <button onclick="changeQuantity('${item.id}', -1)">-</button>
+              <span>${item.quantity}</span>
+              <button onclick="changeQuantity('${item.id}', 1)">+</button>
+            </div>
           </div>
-          <div class="cart-item-qty">
-            <button onclick="changeQuantity(${item.id}, -1)">-</button>
-            <span>${item.quantity}</span>
-            <button onclick="changeQuantity(${item.id}, 1)">+</button>
-          </div>
-        </div>
-      `;
-    }).join('');
+        `;
+      }).join('');
+    }
 
     if (cartTotalEl) cartTotalEl.textContent = `$${totalCost.toFixed(2)}`;
   }
 
+  // Checkout Operations
   function goToCheckout() {
     if (cart.length === 0) {
       alert("Your cart is empty!");
       return;
     }
-    toggleCart();
+    const drawer = document.getElementById('cart-drawer');
+    const overlay = document.getElementById('cart-overlay');
+    if (drawer) drawer.classList.remove('open');
+    if (overlay) overlay.classList.remove('open');
+
     showView('checkout');
   }
 
@@ -1438,14 +1622,15 @@ footer {
     if (!summaryContainer) return;
 
     summaryContainer.innerHTML = cart.map(item => {
-      const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
+      const price = parseFloat(String(item.price).replace(/[^0-9.-]+/g, '')) || 0;
+      const displayTotal = item.price === "TBD" ? "TBD" : `$${(price * item.quantity).toFixed(2)}`;
       return `
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <div>
             <p style="font-weight: 600; margin: 0; font-size: 0.9rem;">${item.name}</p>
-            <p style="font-size: 0.8rem; color: #666; margin: 0;">Qty: ${item.quantity}</p>
+            <p style="font-size: 0.8rem; color: #666; margin: 2px 0 0 0;">Qty: ${item.quantity} × ${item.price}</p>
           </div>
-          <strong>$${(price * item.quantity).toFixed(2)}</strong>
+          <strong>${displayTotal}</strong>
         </div>
       `;
     }).join('');
@@ -1456,18 +1641,23 @@ footer {
   function updateCheckoutTotals() {
     let subtotal = 0;
     cart.forEach(item => {
-      const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
+      const price = parseFloat(String(item.price).replace(/[^0-9.-]+/g, '')) || 0;
       subtotal += price * item.quantity;
     });
 
     const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 15);
     const grandTotal = subtotal + shipping;
 
-    document.getElementById('co-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-    document.getElementById('co-shipping').textContent = `$${shipping.toFixed(2)}`;
-    document.getElementById('co-grand-total').textContent = `$${grandTotal.toFixed(2)}`;
+    const subTotalEl = document.getElementById('co-subtotal');
+    const shippingEl = document.getElementById('co-shipping');
+    const grandTotalEl = document.getElementById('co-grand-total');
+
+    if (subTotalEl) subTotalEl.textContent = `$${subtotal.toFixed(2)}`;
+    if (shippingEl) shippingEl.textContent = `$${shipping.toFixed(2)}`;
+    if (grandTotalEl) grandTotalEl.textContent = `$${grandTotal.toFixed(2)}`;
   }
 
+  // Vercel Serverless Function Dispatch
   async function handleFinalOrder(event) {
     event.preventDefault();
 
@@ -1478,7 +1668,6 @@ footer {
     const city = document.getElementById('co-city').value.trim();
     const zip = document.getElementById('co-zip').value.trim();
 
-    // Mandatory fields check
     if (!name || !email || !phone || !address || !city || !zip) {
       alert("Please fill in all required fields: Name, Email, Phone, Address, City, and ZIP Code.");
       return;
@@ -1494,12 +1683,20 @@ footer {
     const shippingCost = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 15);
 
     let subtotal = 0;
-    let itemsText = '';
-    cart.forEach((item, i) => {
-      const price = parseFloat(item.price.replace(/[^0-9.-]+/g, '')) || 0;
+    const orderItems = cart.map((item, i) => {
+      const price = parseFloat(String(item.price).replace(/[^0-9.-]+/g, '')) || 0;
       const itemTotal = price * item.quantity;
       subtotal += itemTotal;
-      itemsText += `${i + 1}. ${item.name} (${item.tag}) × ${item.quantity} — $${itemTotal.toFixed(2)}\n`;
+
+      return {
+        index: i + 1,
+        name: item.name,
+        tag: item.tag,
+        quantity: item.quantity,
+        priceDisplay: item.price,
+        itemTotalDisplay: item.price === "TBD" ? "TBD" : `$${itemTotal.toFixed(2)}`,
+        description: item.description || ''
+      };
     });
 
     const grandTotal = subtotal + shippingCost;
@@ -1509,8 +1706,11 @@ footer {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name, email, phone, address, city, zip,
-          itemsText,
+          name,
+          email,
+          phone,
+          address: `${address}, ${city} ${zip}`,
+          items: orderItems,
           subtotal: subtotal.toFixed(2),
           shippingCost: shippingCost.toFixed(2),
           grandTotal: grandTotal.toFixed(2)
@@ -1523,12 +1723,10 @@ footer {
         throw new Error(data.message || 'Failed to place order');
       }
 
-      // Empty cart and reset form
       cart = [];
       updateCartUI();
       document.getElementById('checkout-form').reset();
 
-      // Inline confirmation on page
       if (orderMsgEl) {
         orderMsgEl.textContent = `Thank you ${name}! Your order has been placed successfully.`;
         orderMsgEl.style.display = 'block';
@@ -1545,7 +1743,7 @@ footer {
     event.preventDefault();
     const emailInput = document.getElementById('email');
     const messageEl = document.getElementById('subscribe-message');
-    if (emailInput.value) {
+    if (emailInput && emailInput.value) {
       messageEl.textContent = `Thank you for subscribing!`;
       messageEl.style.display = 'block';
       emailInput.value = '';
