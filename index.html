@@ -1764,7 +1764,7 @@ async function handleFinalOrder(event) {
 
     const grandTotal = subtotal + shippingCost;
 
-    try {
+try {
       const response = await fetch('/api/send-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1785,7 +1785,7 @@ async function handleFinalOrder(event) {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.message || 'Failed to place order');
+        throw new Error(data.message || `Server returned status ${response.status}`);
       }
 
       cart = [];
@@ -1797,12 +1797,12 @@ async function handleFinalOrder(event) {
         orderMsgEl.style.display = 'block';
       }
     } catch (err) {
-      alert("There was an issue submitting your order. Please try again.");
+      console.error("Checkout Error:", err);
+      alert(`Order Failed: ${err.message}`);
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = 'Complete Order & Pay';
     }
-  }
 
   function handleSubscribe(event) {
     event.preventDefault();
