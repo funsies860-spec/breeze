@@ -21,7 +21,6 @@
 
 html {
   scroll-behavior: smooth;
-  width: 100%;
 }
 
 body {
@@ -31,10 +30,6 @@ body {
   font-weight: 400;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
 }
 
 h1, h2, h3, .display {
@@ -66,11 +61,11 @@ a:focus-visible, button:focus-visible {
   outline-offset: 3px;
 }
 
-main {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 /* --- Consolidated Header --- */
@@ -97,14 +92,14 @@ main {
 }
 
 .brand-logo {
-  width: 65px;
+  width: 110px;
   height: auto;
   flex-shrink: 0;
 }
 
 .brand-title {
   font-family: 'Fraunces', serif;
-  font-size: 0.95rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: var(--ink);
   letter-spacing: 1px;
@@ -122,7 +117,7 @@ main {
   background: none;
   border: none;
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   cursor: pointer;
   color: var(--ink);
   white-space: nowrap;
@@ -140,16 +135,6 @@ main {
   position: relative;
   overflow: hidden;
   padding-top: 40px;
-}
-
-.hero-inner {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 64px 32px 40px;
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 40px;
-  align-items: center;
 }
 
 .hero-eyebrow {
@@ -226,24 +211,45 @@ main {
   color: #ffffff;
 }
 
+/* 1. Stretch hero grid columns to equal height */
+.hero-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 64px 32px 40px;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 40px;
+  align-items: stretch; /* Stretches both sides to full height */
+}
+
+/* 2. Make image container fill available space */
 .hero-art {
   position: relative;
-  aspect-ratio: 1 / 1;
+  width: 100%;
+  height: 100%;
+  min-height: 480px; /* Guarantees a strong hero presence */
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.hero-waves {
-  position: absolute;
-  inset: -10%;
-  z-index: 0;
+/* 3. Force image to cover the entire right block edge-to-edge */
+.hero-img {
+  width: 100%;
+  height: 100%;
+  max-width: none; /* Removes width cap */
+  max-height: none; /* Removes height cap */
+  object-fit: cover; /* Fills entire box without distorting aspect ratio */
+  border-radius: 12px;
+  box-shadow: 0 16px 36px rgba(29, 49, 86, 0.15);
 }
 
-.hero-ring {
-  position: relative;
-  z-index: 1;
-  width: 62%;
+/* Responsive adjustment for tablet/mobile */
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .hero-art {
+    min-height: 360px;
+  }
 }
 
 /* --- Sections & Layout --- */
@@ -284,12 +290,12 @@ section {
 
 .shop-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 24px;
-  width: 100%;
-  box-sizing: border-box;
+  margin-top: 32px;
 }
 
+/* Home Horizontal Scroll View */
 #home-view .shop-grid {
   display: flex;
   gap: 1.5rem;
@@ -298,7 +304,6 @@ section {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 1.25rem;
-  width: 100%;
 }
 
 #home-view .shop-grid .piece-card {
@@ -889,16 +894,78 @@ section {
 .newsletter-form button:hover {
   background: var(--ink);
 }
+  /* --- 1. Root & Main Container Reset --- */
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 
-/* SPA Views */
+/* Ensure the main tag stacks children vertically without side-by-side flex forcing */
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* --- 2. SPA View Wrapper Rules (Preserves hidden states) --- */
 .view {
   width: 100%;
   box-sizing: border-box;
 }
 
+/* If your hidden class/attribute is used, respect display: none */
 .view.hidden,
 [hidden] {
   display: none !important;
+}
+
+/* --- 3. Grid Restorations for Desktop & Mobile --- */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Desktop Home View Horizontal Scroll (Only on home view, not collection view) */
+#home-view .shop-grid {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+}
+
+#home-view .shop-grid .piece-card {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+}
+
+/* Mobile Breakpoint Fixes */
+@media (max-width: 680px) {
+  .wrap, 
+  .site-header, 
+  section {
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+  }
+
+  /* Full collection view vertical stack on mobile */
+  #collection-view .shop-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .piece-card {
+    width: 100%;
+  }
 }
 
 /* --- Footer --- */
@@ -957,10 +1024,18 @@ footer {
   gap: 12px;
 }
 
-/* --- Responsive Rules --- */
+/* --- Responsive Rules (Ordered correctly by breakpoint) --- */
 @media (max-width: 900px) {
-  .hero-inner { grid-template-columns: 1fr; }
-  .hero-art { order: -1; max-width: 280px; margin: 0 auto; }
+  .hero-inner { 
+    grid-template-columns: 1fr; 
+  }
+  .hero-art { 
+    order: -1; 
+    width: 100%;
+    max-width: 100%; /* Overrides the old 280px cap */
+    min-height: 360px;
+    margin: 0 0 24px 0; 
+  }
   .shop-grid { grid-template-columns: repeat(2, 1fr); }
   .piece-card.feature { grid-column: span 2; grid-row: span 1; }
   .choice-grid { grid-template-columns: 1fr; }
@@ -972,18 +1047,8 @@ footer {
 }
 
 @media (max-width: 680px) {
-  .wrap, 
-  .site-header, 
-  section {
-    width: 100%;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
   .site-header {
     padding: 12px 16px;
-    flex-wrap: wrap;
-    row-gap: 10px;
   }
 
   .brand-container {
@@ -999,24 +1064,12 @@ footer {
   }
 
   .nav-links {
-    width: 100%;
-    justify-content: space-between;
     gap: 10px;
   }
 
   .nav-links button,
   .nav-links a {
     font-size: 0.8rem;
-  }
-
-  #collection-view .shop-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .piece-card {
-    width: 100%;
   }
 }
 
@@ -1029,7 +1082,7 @@ footer {
   .footer-grid { grid-template-columns: 1fr; }
   .newsletter-inner { flex-direction: column; align-items: flex-start; }
 }
-</style>
+  </style>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -1073,7 +1126,7 @@ footer {
 <main id="top">
 
   <!-- HERO -->
-  <section class="hero">
+    <section class="hero">
     <div class="hero-inner">
       <div>
         <p class="hero-eyebrow">Ready-made &amp; custom jewelry</p>
@@ -1084,24 +1137,19 @@ footer {
           <a href="#custom" class="btn btn-ghost">Start a custom piece</a>
         </div>
       </div>
-      <div class="hero-art">
-        <svg class="hero-waves" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M-20 180C80 140 140 220 240 190C340 160 380 90 520 120" stroke="#A4B5D1" stroke-opacity="0.35" stroke-width="1.5"/>
-          <path d="M-20 260C90 230 150 300 260 270C370 240 410 180 520 210" stroke="#496894" stroke-opacity="0.3" stroke-width="1.5"/>
-          <path d="M-20 340C100 310 160 380 270 350C380 320 420 270 520 300" stroke="#FED6CE" stroke-opacity="0.35" stroke-width="1.5"/>
-        </svg>
-        <svg class="hero-ring" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a ring set with a stone">
-          <circle cx="120" cy="140" r="76" stroke="#1D3156" stroke-width="6"/>
-          <circle cx="120" cy="140" r="76" stroke="#FED6CE" stroke-width="1.5" stroke-dasharray="3 6"/>
-          <path d="M92 58L120 24L148 58L120 82L92 58Z" fill="#B0CBE6" stroke="#1D3156" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M120 24L120 82" stroke="#1D3156" stroke-width="1.5" stroke-opacity="0.5"/>
-        </svg>
-      </div>
+     <div class="hero-art">
+   <img 
+  src="https://lh3.googleusercontent.com/d/1NrCOlBEpxe44ZVFQ7VVzuvP6KarRuifj" 
+  class="hero-img" 
+  alt="Pendant" 
+/>
+</div>
     </div>
     <svg class="cascade-divider" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path d="M0 40C240 10 480 70 720 40C960 10 1200 70 1440 40V90H0V40Z" fill="#B0CBE6"/>
     </svg>
   </section>
+
 
   <!-- SHOP -->
   <section class="shop" id="shop">
