@@ -982,19 +982,31 @@ footer {
 </head>
 <body>
 
-<header class="site-nav">
-  <div class="nav-inner">
-    <a href="#top" class="logo" onclick="showView('home')">Breeze jewels</a>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="#shop" onclick="showView('home')">Shop</a>
-      <a href="#custom" onclick="showView('home')">Custom</a>
-      <a href="#story" onclick="showView('home')">Our story</a>
-      <button id="cart-btn" class="cart-trigger" onclick="toggleCart()">
+<header style="display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; background: #FBF7F5; border-bottom: 1px solid #E5E0DA;">
+  
+  <!-- Brand Logo & Home Button -->
+  <div onclick="showView('home')" style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+    <svg width="120" height="48" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Left Wing -->
+      <path d="M 22 34 C 42 48 68 22 96 46 C 78 30 58 46 22 34 Z" fill="#13364B" stroke="#13364B" stroke-width="3" stroke-linejoin="round"/>
+      <!-- Right Wing -->
+      <path d="M 178 34 C 158 48 132 22 104 46 C 122 30 142 46 178 34 Z" fill="#13364B" stroke="#13364B" stroke-width="3" stroke-linejoin="round"/>
+      <!-- Center Gold Bead -->
+      <circle cx="100" cy="45.5" r="6" fill="#C5A059"/>
+    </svg>
+    
+    <span style="font-family: serif; font-size: 1.25rem; font-weight: 600; color: #1D3156; letter-spacing: 1px;">Breeze jewels</span>
+  </div>
+
+  <!-- Navigation Links -->
+  <nav style="display: flex; gap: 20px; align-items: center;">
+    <button onclick="showView('collection')" style="background: none; border: none; font-size: 0.95rem; cursor: pointer; color: #1D3156;">Collection</button>
+    <button onclick="showView('custom-order')" style="background: none; border: none; font-size: 0.95rem; cursor: pointer; color: #1D3156;">Custom Order</button>
+    <button onclick="toggleCart()" style="background: none; border: none; font-size: 0.95rem; cursor: pointer; color: #1D3156;">
       Cart (<span id="cart-count">0</span>)
     </button>
-    </nav>
-    <a href="#collection" id="viewCollectionBtn" class="nav-cta" onclick="showView('collection')">View Collection</a>
-  </div>
+  </nav>
+
 </header>
 
 <!-- HOME VIEW -->
