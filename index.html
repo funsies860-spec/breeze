@@ -21,6 +21,7 @@
 
 html {
   scroll-behavior: smooth;
+  width: 100%;
 }
 
 body {
@@ -30,6 +31,10 @@ body {
   font-weight: 400;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, .display {
@@ -61,12 +66,12 @@ a:focus-visible, button:focus-visible {
   outline-offset: 3px;
 }
 
-@media (max-width: 680px) {
-  .site-header {
-    padding: 12px 16px;
-    flex-wrap: wrap;      /* ADD */
-    row-gap: 10px;        /* ADD */
-  }
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
 
 /* --- Consolidated Header --- */
 .site-header {
@@ -108,10 +113,8 @@ a:focus-visible, button:focus-visible {
 
 .nav-links {
   display: flex;
-  gap: 10px;
+  gap: 20px;
   align-items: center;
-  width: 100%;           /* ADD — pushes nav to its own row */
-    justify-content: space-between;  /* ADD — spreads the 3 items out */
 }
 
 .nav-links button,
@@ -119,7 +122,7 @@ a:focus-visible, button:focus-visible {
   background: none;
   border: none;
   font-family: inherit;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   cursor: pointer;
   color: var(--ink);
   white-space: nowrap;
@@ -281,12 +284,12 @@ section {
 
 .shop-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 24px;
-  margin-top: 32px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Home Horizontal Scroll View */
 #home-view .shop-grid {
   display: flex;
   gap: 1.5rem;
@@ -295,6 +298,7 @@ section {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 1.25rem;
+  width: 100%;
 }
 
 #home-view .shop-grid .piece-card {
@@ -886,80 +890,16 @@ section {
   background: var(--ink);
 }
 
-/* --- 1. Root & Main Container Reset --- */
-html, body {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-/* Ensure the main tag stacks children vertically without side-by-side flex forcing */
-main {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-/* --- 2. SPA View Wrapper Rules (Preserves hidden states) --- */
+/* SPA Views */
 .view {
   width: 100%;
   box-sizing: border-box;
 }
 
-/* If your hidden class/attribute is used, respect display: none */
 .view.hidden,
 [hidden] {
   display: none !important;
 }
-
-/* --- 3. Grid Restorations for Desktop & Mobile --- */
-.shop-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 24px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Desktop Home View Horizontal Scroll (Only on home view, not collection view) */
-#home-view .shop-grid {
-  display: flex;
-  gap: 1.5rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  width: 100%;
-}
-
-#home-view .shop-grid .piece-card {
-  flex: 0 0 280px;
-  scroll-snap-align: start;
-}
-
-/* Mobile Breakpoint Fixes */
-@media (max-width: 680px) {
-  .wrap, 
-  .site-header, 
-  section {
-    width: 100%;
-    padding-left: 16px;
-    padding-right: 16px;
-    box-sizing: border-box;
-  }
-
-  /* Full collection view vertical stack on mobile */
-  #collection-view .shop-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .piece-card {
-    width: 100%;
-  }
-}
-
 
 /* --- Footer --- */
 footer {
@@ -1017,7 +957,7 @@ footer {
   gap: 12px;
 }
 
-/* --- Responsive Rules (Ordered correctly by breakpoint) --- */
+/* --- Responsive Rules --- */
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; }
   .hero-art { order: -1; max-width: 280px; margin: 0 auto; }
@@ -1032,8 +972,18 @@ footer {
 }
 
 @media (max-width: 680px) {
+  .wrap, 
+  .site-header, 
+  section {
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
   .site-header {
     padding: 12px 16px;
+    flex-wrap: wrap;
+    row-gap: 10px;
   }
 
   .brand-container {
@@ -1049,12 +999,24 @@ footer {
   }
 
   .nav-links {
+    width: 100%;
+    justify-content: space-between;
     gap: 10px;
   }
 
   .nav-links button,
   .nav-links a {
     font-size: 0.8rem;
+  }
+
+  #collection-view .shop-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .piece-card {
+    width: 100%;
   }
 }
 
@@ -1067,7 +1029,7 @@ footer {
   .footer-grid { grid-template-columns: 1fr; }
   .newsletter-inner { flex-direction: column; align-items: flex-start; }
 }
-  </style>
+</style>
 
 <!DOCTYPE html>
 <html lang="en">
