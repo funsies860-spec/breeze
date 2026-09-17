@@ -1755,14 +1755,15 @@ const products = [
 let cart = [];
 
 // Navigation & View Routing
-function showView(viewName) {
-  document.getElementById('home-view').style.display = 'none';
-  document.getElementById('collection-view').style.display = 'none';
-  document.getElementById('product-detail-view').style.display = 'none';
-  document.getElementById('checkout-view').style.display = 'none';
-  
-  const customView = document.getElementById('custom-order-view');
-  if (customView) customView.style.display = 'none';
+let currentView = 'home';
+
+// Navigation & View Routing
+function showView(viewName, pushState = true) {
+  const views = ['home-view', 'collection-view', 'product-detail-view', 'checkout-view', 'custom-order-view'];
+  views.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
 
   if (viewName === 'collection') {
     document.getElementById('collection-view').style.display = 'block';
@@ -1773,10 +1774,18 @@ function showView(viewName) {
     document.getElementById('checkout-view').style.display = 'block';
     renderCheckoutSummary();
   } else if (viewName === 'custom-order') {
+    const customView = document.getElementById('custom-order-view');
     if (customView) customView.style.display = 'block';
   } else {
     document.getElementById('home-view').style.display = 'block';
+    viewName = 'home';
   }
+
+  if (pushState && viewName !== currentView) {
+    history.pushState({ view: viewName }, '', `#${viewName}`);
+  }
+
+  currentView = viewName;
   window.scrollTo(0, 0);
 }
 
@@ -1826,35 +1835,93 @@ function addCustomToCart(event) {
 }
 
 // Product Rendering & Details
-function renderCollection() {
-  const gridContainer = document.getElementById("product-grid");
-  if (!gridContainer || gridContainer.children.length > 0) return;
+function openProductDetail(productId, pushState = true) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
 
-  gridContainer.innerHTML = products.map(product => {
-    const mediaHtml = (product.images && product.images.length > 0)
-      ? `<img src="${product.images[0]}" alt="${product.name}" class="piece-img" style="width: 100%; height: 100%; object-fit: cover;" />`
-      : product.svg;
+  document.getElementById('detail-name').textContent = product.name;
+  document.getElementById('detail-price').textContent = typeof product.price === 'number' ? `$${product.price}` : product.price;
+  document.getElementById('detail-material').textContent = product.material || product.tag || '';
+  document.getElementById('detail-description').textContent = product.description;
 
-    const displayPrice = typeof product.price === 'number' ? `$${product.price}` : product.price;
-    const displayTag = product.material || product.tag || '';
+  const storyEl = document.getElementById('detail-story');
+  if (storyEl) {
+    storyEl.textContent = product.story || product.description;
+  }
 
-    return `
-      <div class="piece-card" onclick="openProductDetail(${product.id})" style="cursor: pointer;">
-        <div class="piece-art">
-          ${mediaHtml}
-        </div>
-        <div class="piece-meta">
-          <div>
-            <p class="piece-name">${product.name}</p>
-            <p class="piece-tag">${displayTag}</p>
+  const mediaContainer = document.getElementById('detail-media');
+  if (mediaContainer) {
+    if (product.images && product.images.length > 0) {
+      mediaContainer.style.padding = '0';
+      mediaContainer.style.margin = '0';
+      mediaContainer.style.background = '#0a0a0a';
+      mediaContainer.style.overflow = 'hidden';
+      mediaContainer.style.borderRadius = '16px';
+      mediaContainer.style.width = '100%';
+      mediaContainer.style.height = 'auto';
+
+      mediaContainer.innerHTML = `
+        <div style="width: 100%; position: relative;">
+          <div id="detail-slider" style="display: flex; overflow-x: auto; scroll-snap-type: x mandatory; width: 100%; aspect-ratio: 1 / 1; border-radius: 16px; scrollbar-width: none;">
+            ${product.images.map((imgUrl, index) => `
+              <img 
+                id="detail-slide-${index}"
+                src="${imgUrl}" 
+                alt="${product.name} angle ${index + 1}" 
+                style="width: 100%; height: 100%; flex-shrink: 0; scroll-snap-align: start; object-fit: cover; display: block;" 
+              />
+            `).join('')}
           </div>
-          <p class="piece-price">${displayPrice}</p>
         </div>
-      </div>
-    `;
-  }).join('');
+      `;
+    } else if (product.svg) {
+      mediaContainer.style.padding = '2rem';
+      mediaContainer.style.background = '#f4f5f7';
+      mediaContainer.innerHTML = product.svg;
+    }
+  }
+
+  const addBtn = document.getElementById('add-to-cart-btn');
+  if (addBtn) {
+    addBtn.onclick = () => addToCart(product.id);
+  }
+
+  if (pushState) {
+    history.pushState({ view: 'product-detail', productId: product.id }, '', `#product-${product.id}`);
+  }
+
+  currentView = 'product-detail';
+  showView('product-detail', false);
 }
 
+// Router Event Listeners
+window.addEventListener('popstate', (event) => {
+  handleRouting(event.state);
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  handleRouting(history.state);
+  setupSliderDots();
+});
+  function setupSliderDots() {
+  const dots = document.querySelectorAll('.detail-slider-dots .dot');
+  const slider = document.getElementById('detail-slider');
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetImg = document.getElementById(`detail-slide-${index}`);
+      if (targetImg && slider) {
+        slider.scrollTo({
+          left: targetImg.offsetLeft,
+          behavior: 'smooth'
+        });
+        dots.forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+      }
+    });
+  });
+}
 function openProductDetail(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
