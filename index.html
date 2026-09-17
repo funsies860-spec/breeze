@@ -143,10 +143,6 @@ a:focus-visible, button:focus-visible {
   margin-bottom: 18px;
 }
 
-.hero h1 {
-  font-size: clamp(2.6rem, 5vw, 4.1rem);
-  max-width: 11ch;
-}
 
 .hero p.lede {
   margin-top: 24px;
@@ -211,36 +207,99 @@ a:focus-visible, button:focus-visible {
   color: #ffffff;
 }
 
-/* 1. Stretch hero grid columns to equal height */
+/* --- Full-Width Hero Background --- */
+/* --- Full-Width Hero Background (No Overlay) --- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 0;
+}
+
+/* Background image filling section directly */
+.hero-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+}
+
+/* Remove or hide overlay */
+.hero-overlay {
+  display: none;
+}
+
+/* Text layer sitting above image */
 .hero-inner {
+  position: relative;
+  z-index: 2;
   max-width: 1180px;
   margin: 0 auto;
-  padding: 64px 32px 40px;
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 40px;
-  align-items: stretch; /* Stretches both sides to full height */
+  padding: 0 32px;
+  width: 100%;
 }
 
-/* 2. Make image container fill available space */
-.hero-art {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 480px; /* Guarantees a strong hero presence */
-  display: flex;
+.hero-content {
+  max-width: 580px;
 }
 
-/* 3. Force image to cover the entire right block edge-to-edge */
-.hero-img {
-  width: 100%;
-  height: 100%;
-  max-width: none; /* Removes width cap */
-  max-height: none; /* Removes height cap */
-  object-fit: cover; /* Fills entire box without distorting aspect ratio */
-  border-radius: 12px;
-  box-shadow: 0 16px 36px rgba(29, 49, 86, 0.15);
+/* Text styles */
+.hero h1 {
+  color: ;
+  font-size: clamp(2.6rem, 5vw, 4.1rem);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); /* Optional: improves readability over raw photos */
 }
+
+.hero p.lede {
+  color: ;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+.hero-eyebrow {
+  color:;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Button contrast updates */
+.hero .btn-primary {
+  background: ;
+  color: ;
+  border-color: 
+}
+
+.hero .btn-primary:hover {
+  background:;
+}
+
+.hero .btn-ghost {
+  color: ;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.hero .btn-ghost:hover {
+  border-color: ;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 680px) {
+  .hero {
+    min-height: 70vh;
+    padding: 60px 0;
+  }
+  
+  .hero-overlay {
+    background: rgba(29, 49, 86, 0.82); /* Stronger tint on mobile screens */
+  }
+}
+
 
 /* Responsive adjustment for tablet/mobile */
 @media (max-width: 900px) {
@@ -329,7 +388,6 @@ section {
 .piece-card {
   display: flex;
   flex-direction: column;
-  padding: 24px 20px;
   background: var(--paper-dim);
   border: 1px solid var(--line);
   border-radius: 4px;
@@ -338,6 +396,8 @@ section {
   z-index: 5;
   pointer-events: auto;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden; /* Clips top image corners to match card radius */
+  padding: 0;       /* Removes outer card padding */
 }
 
 .piece-card:hover {
@@ -353,34 +413,39 @@ section {
   pointer-events: auto;
 }
 
+/* Feature Card Override — Padding set to 0 to keep full-bleed image */
 .piece-card.feature {
   grid-column: span 2;
   grid-row: span 2;
   background: linear-gradient(165deg, var(--cascade-pale) 0%, var(--paper-dim) 78%);
-  padding: 36px 30px 30px;
+  padding: 0;
 }
 
+/* Image Container — Fills top edge-to-edge */
 .piece-art {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 140px;
+  width: 100%;
+  height: 280px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: block;
+}
+
+.piece-card.feature .piece-art {
+  height: 380px; /* Taller photo height for featured pieces */
 }
 
 .piece-art img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 4px;
+  height: 100%;
+  object-fit: cover; /* Covers box without stretching or letterboxing */
+  display: block;
+  border-radius: 0;  /* Edge-to-edge fit */
 }
 
-.piece-card.feature .piece-art {
-  min-height: 220px;
-}
-
+/* Padding moved to text and action elements */
 .piece-meta {
-  margin-top: 20px;
+  padding: 20px 20px 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -410,7 +475,7 @@ section {
 }
 
 .piece-actions {
-  margin-top: 16px;
+  padding: 16px 20px 20px 20px;
   display: flex;
   gap: 10px;
 }
@@ -419,7 +484,6 @@ section {
   padding: 10px 16px;
   font-size: 0.85rem;
 }
-
 /* Product Detail Page Layout */
 .product-layout {
   display: grid;
@@ -955,7 +1019,10 @@ main {
     padding-right: 16px;
     box-sizing: border-box;
   }
-
+#product-detail {
+    grid-template-columns: 1fr !important;
+    flex-direction: column !important;
+  }
   /* Full collection view vertical stack on mobile */
   #collection-view .shop-grid {
     display: grid;
@@ -1095,7 +1162,6 @@ footer {
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
 <header class="site-header">
   
   <!-- Brand Logo & Home Button -->
@@ -1120,36 +1186,38 @@ footer {
       Cart (<span id="cart-count">0</span>)
     </button>
   </nav>
+
 </header>
+
 <!-- HOME VIEW -->
 <div id="home-view">
 <main id="top">
 
   <!-- HERO -->
-    <section class="hero">
-    <div class="hero-inner">
-      <div>
-        <p class="hero-eyebrow">Ready-made &amp; custom jewelry</p>
-        <h1>Pieces that catch the light like water.</h1>
-        <p class="lede">Breeze is built around a simple idea: jewelry should move the way a breeze moves — light, fluid, a little unpredictable. Shop the current collection, or design something made only for you.</p>
-        <div class="hero-actions">
-          <a href="#shop" class="btn btn-primary">Shop the collection</a>
-          <a href="#custom" class="btn btn-ghost">Start a custom piece</a>
-        </div>
-      </div>
-     <div class="hero-art">
-   <img 
-  src="https://lh3.googleusercontent.com/d/1NrCOlBEpxe44ZVFQ7VVzuvP6KarRuifj" 
-  class="hero-img" 
-  alt="Pendant" 
-/>
-</div>
-    </div>
-    <svg class="cascade-divider" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M0 40C240 10 480 70 720 40C960 10 1200 70 1440 40V90H0V40Z" fill="#B0CBE6"/>
-    </svg>
-  </section>
+  <section class="hero">
+  <!-- Background Image & Contrast Overlay -->
+  <img 
+    src="https://lh3.googleusercontent.com/d/19AuLq0LF0RDDp9RoViE_0TmeW2DJ1kP3"
+    alt="Iced-out cat pendant background" 
+    class="hero-bg-img" 
+  />
+  <div class="hero-overlay"></div>
 
+  <!-- Hero Content Layer -->
+  <div class="hero-inner">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Ready-made & custom jewelry</p>
+      <h1>Pieces that catch the light like water.</h1>
+      <p class="lede">
+        Breeze is built around a simple idea: jewelry should move the way a breeze moves — light, fluid, a little unpredictable. Shop the current collection, or design something made only for you.
+      </p>
+      <div class="hero-actions">
+         <a href="#shop" class="btn btn-primary">Shop the collection</a>
+        <a href="#custom" class="btn btn-ghost">Custom Order</a>
+      </div>
+    </div>
+  </div>
+</section>
 
   <!-- SHOP -->
   <section class="shop" id="shop">
@@ -1166,87 +1234,90 @@ footer {
         <!-- Card 1 -->
         <div class="piece-card feature" onclick="openProductDetail(1)" style="cursor: pointer;">
           <div class="piece-art">
-            <svg viewBox="0 0 200 200" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M40 30C40 80 160 80 160 30" stroke="#1D3156" stroke-width="3"/>
-              <path d="M100 80L118 112C118 124 110 132 100 132C90 132 82 124 82 112L100 80Z" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3" stroke-linejoin="round"/>
-            </svg>
+           <img 
+      src="https://lh3.googleusercontent.com/d/1NrCOlBEpxe44ZVFQ7VVzuvP6KarRuifj"
+      alt="Iced-out cat head pendant with sapphire blue eyes" 
+      class="piece-img"
+    />
           </div>
           <div class="piece-meta">
             <div>
               <p class="piece-name">Cat Head Pendant</p>
               <p class="piece-tag">925 Silver, ready-made</p>
             </div>
-            <p class="piece-price">$600</p>
+            <p class="piece-price">$900</p>
           </div>
         </div>
 
         <!-- Card 2 -->
-        <div class="piece-card" onclick="openProductDetail(2)" style="cursor: pointer;">
+        <div class="piece-card feature" onclick="openProductDetail(2)" style="cursor: pointer;">
           <div class="piece-art">
-            <svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="80" cy="90" r="50" stroke="#1D3156" stroke-width="4"/>
-              <circle cx="80" cy="38" r="14" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3"/>
-            </svg>
+           <img 
+      src="https://lh3.googleusercontent.com/d/1BtHWhGuz8ES9OeK97xNSFvii1TY8gl5O"
+      alt="Talisman earring" 
+      class="piece-img"
+    />
           </div>
           <div class="piece-meta">
             <div>
-              <p class="piece-name">Cascade Band</p>
-              <p class="piece-tag">Sterling silver</p>
+              <p class="piece-name">Talisman Earring</p>
+              <p class="piece-tag">925 Silver, ready-made</p>
             </div>
-            <p class="piece-price">$95</p>
+            <p class="piece-price">$60</p>
           </div>
         </div>
 
         <!-- Card 3 -->
-        <div class="piece-card" onclick="openProductDetail(3)" style="cursor: pointer;">
+        <div class="piece-card feature" onclick="openProductDetail(3)" style="cursor: pointer;">
           <div class="piece-art">
-            <svg viewBox="0 0 160 160" width="60%" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M60 20C60 34 74 34 74 20" stroke="#1D3156" stroke-width="3"/>
-              <ellipse cx="67" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/>
-              <path d="M100 20C100 34 114 34 114 20" stroke="#1D3156" stroke-width="3"/>
-              <ellipse cx="107" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/>
-            </svg>
+           <img 
+      src="https://lh3.googleusercontent.com/d/1gMA5usJkOuLTjZvit75_2LJgDb1-Bjei"
+      alt="Matching Masks Pendant" 
+      class="piece-img"
+    />
           </div>
           <div class="piece-meta">
             <div>
-              <p class="piece-name">Windfall Drops</p>
-              <p class="piece-tag">Freshwater pearl</p>
+              <p class="piece-name">Matching Masks Pendant</p>
+              <p class="piece-tag">925 Silver, ready-made</p>
             </div>
-            <p class="piece-price">$140</p>
+            <p class="piece-price">$50</p>
           </div>
         </div>
 
         <!-- Card 4 -->
-        <div class="piece-card" onclick="openProductDetail(4)" style="cursor: pointer;">
+            <div class="piece-card feature" onclick="openProductDetail(4)" style="cursor: pointer;">
           <div class="piece-art">
-            <svg viewBox="0 0 160 160" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="80" cy="80" rx="58" ry="40" stroke="#1D3156" stroke-width="4"/>
-              <path d="M22 80C22 60 40 46 62 44" stroke="#FED6CE" stroke-width="2" stroke-dasharray="2 6"/>
-            </svg>
+           <img 
+      src="https://lh3.googleusercontent.com/d/1v6HgcIN-hWoWi9IQ_6dv8De3M_Pp9mUg"
+      alt="Costume Grills" 
+      class="piece-img"
+    />
           </div>
           <div class="piece-meta">
             <div>
-              <p class="piece-name">Low Tide Cuff</p>
-              <p class="piece-tag">Brushed gold</p>
+              <p class="piece-name">Costume Grills</p>
+              <p class="piece-tag">925 Silver,21 Gold</p>
             </div>
-            <p class="piece-price">$165</p>
+            <p class="piece-price">$100</p>
           </div>
         </div>
 
         <!-- Card 5 -->
-        <div class="piece-card" onclick="openProductDetail(5)" style="cursor: pointer;">
+         <div class="piece-card feature" onclick="openProductDetail(5)" style="cursor: pointer;">
           <div class="piece-art">
-            <svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M40 40C40 90 120 90 120 40" stroke="#1D3156" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/>
-              <circle cx="80" cy="98" r="7" fill="#FED6CE"/>
-            </svg>
+           <img 
+      src="https://lh3.googleusercontent.com/d/1gQh96x7NmVaespsJKnO5cTpGsiyZsqwU"
+      alt="Nose Piercing" 
+      class="piece-img"
+    />
           </div>
           <div class="piece-meta">
             <div>
-              <p class="piece-name">Shoreline Chain</p>
-              <p class="piece-tag">14k gold vermeil</p>
+              <p class="piece-name">Nose Piercing</p>
+              <p class="piece-tag">21 Gold,ready made</p>
             </div>
-            <p class="piece-price">$120</p>
+            <p class="piece-price">$100</p>
           </div>
         </div>
       </div>
@@ -1450,7 +1521,7 @@ footer {
 <div id="checkout-view" style="display: none; max-width: 600px; margin: 40px auto; padding: 20px;">
   <h2>Checkout Details</h2>
   
-<form id="checkout-form" onsubmit="handleFinalOrder(event)">
+ <form id="checkout-form" onsubmit="handleFinalOrder(event)">
   <!-- First and Last Name -->
   <div style="display: flex; gap: 10px; margin-bottom: 12px;">
     <div style="flex: 1;">
@@ -1512,11 +1583,11 @@ footer {
     <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">Shipping Method *</label>
     <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; cursor: pointer;">
       <input type="radio" name="shipping" value="15" checked onchange="updateCheckoutTotals()">
-      Standard Delivery ($15.00)
+      Standard Delivery (5,000IQD)
     </label>
     <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
       <input type="radio" name="shipping" value="25" onchange="updateCheckoutTotals()">
-      Express Delivery ($25.00)
+      Express Delivery (10,000IQD)
     </label>
   </div>
 
@@ -1587,41 +1658,108 @@ footer {
   })();
 </script>
 <script>
-  const products = [
-    { id: 1, name: "Cat Head Pendant", price: "$600", tag: "925 Silver, ready-made", description: "Designed to capture subtle fluid silhouettes, this piece represents independence and instinct.", svg: `<svg viewBox="0 0 200 200" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40 30C40 80 160 80 160 30" stroke="#1D3156" stroke-width="3"/><path d="M100 80L118 112C118 124 110 132 100 132C90 132 82 124 82 112L100 80Z" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3" stroke-linejoin="round"/></svg>` },
-    { id: 2, name: "Cascade Band", price: "$95", tag: "Sterling silver", description: "Inspired by flowing shoreline textures, symbolizing continuous movement and adaptability.", svg: `<svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="80" cy="90" r="50" stroke="#1D3156" stroke-width="4"/><circle cx="80" cy="38" r="14" fill="#B0CBE6" stroke="#FED6CE" stroke-width="3"/></svg>` },
-    { id: 3, name: "Windfall Drops", price: "$140", tag: "Freshwater pearl", description: "Minimalist drop design created to reflect quiet reflection and organic balance.", svg: `<svg viewBox="0 0 160 160" width="60%" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60 20C60 34 74 34 74 20" stroke="#1D3156" stroke-width="3"/><ellipse cx="67" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/><path d="M100 20C100 34 114 34 114 20" stroke="#1D3156" stroke-width="3"/><ellipse cx="107" cy="50" rx="10" ry="16" fill="#B0CBE6" stroke="#1D3156" stroke-width="3"/></svg>` },
-    { id: 4, name: "Low Tide Cuff", price: "$165", tag: "Brushed gold", description: "A grounded structural piece capturing the steady rhythm of receding tides.", svg: `<svg viewBox="0 0 160 160" width="72%" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="80" cy="80" rx="58" ry="40" stroke="#1D3156" stroke-width="4"/><path d="M22 80C22 60 40 46 62 44" stroke="#FED6CE" stroke-width="2" stroke-dasharray="2 6"/></svg>` },
-    { id: 5, name: "Shoreline Chain", price: "$120", tag: "14k gold vermeil", description: "Delicate yet durable links crafted for everyday versatility and timeless wear.", svg: `<svg viewBox="0 0 160 160" width="70%" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M40 40C40 90 120 90 120 40" stroke="#1D3156" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/><circle cx="80" cy="98" r="7" fill="#FED6CE"/></svg>` }
-  ];
+const products = [
+  {
+    id: 1,
+    name: "Cat Head Pendant",
+    price: 900,
+    material: "925 Silver, ready-made",
+    description: "Precision 3D CAD engineered cat head pendant featuring handset micro-pave stones and sapphire blue eyes.",
+    story: "Modeled in 3D CAD to achieve optimal geometry and stone alignment before precision silver casting and hand finishing.",
+    images: [
+      "https://lh3.googleusercontent.com/d/1NrCOlBEpxe44ZVFQ7VVzuvP6KarRuifj",
+      "https://lh3.googleusercontent.com/d/1HaYsFr5QtiUUEe8O1QCMB8PGReGBOHLz",
+      "https://lh3.googleusercontent.com/d/1hJuVMC-BCHTz9XLBzcZs6UsEgriFlJ3W",
+      "https://lh3.googleusercontent.com/d/1w8bY9vRtEa8XN7ptr-rRzUXe8B4zExnh",
+      "https://lh3.googleusercontent.com/d/1-0nGwci3kwRoEoKsUOzOd_eI7fVMZ_4l"
+    ]
+  },
+  {
+    id: 2,
+    name: "Talisman earring",
+    price: 60,
+    material: "925 Silver, ready-made",
+    description: "Precision 3D CAD engineered talisman earring crafted in 925 silver.",
+    story: "Modeled in 3D CAD to achieve optimal geometry and balance before precision silver casting.",
+    images: [
+      "https://lh3.googleusercontent.com/d/1BtHWhGuz8ES9OeK97xNSFvii1TY8gl5O",
+      "https://lh3.googleusercontent.com/d/1L0IzJ3pFNbhePLgrkasAWdNOxk1U1mLT",
+      "https://lh3.googleusercontent.com/d/19rnIp5R2gt9zVu6D8NHayMAaAoLe5X1s",
+      "https://lh3.googleusercontent.com/d/1U_6R52veG3buSJ4zJJBIa0fVJs00rIlq"
+    ]
+  },
+  {
+    id: 3,
+    name: "Matching Masks Pendant",
+    price: 60,
+    material: "925 Silver, ready-made",
+    description: "Precision 3D CAD engineered matching masks pendant.",
+    story: "Designed in 3D CAD with intricate facial contours and cast in solid 925 silver.",
+    images: [
+      "https://lh3.googleusercontent.com/d/1gMA5usJkOuLTjZvit75_2LJgDb1-Bjei",
+      "https://lh3.googleusercontent.com/d/1nj4wy2JUoE1_26r2kut4xMSv29E3KFPI",
+      "https://lh3.googleusercontent.com/d/1j3t6LvbYaw4jtA4NomMqvcbVyojOvrMZ",
+      "https://lh3.googleusercontent.com/d/1d7xc61dvCJQSXwhRGi4Fp2rEofidgjin",
+      "https://lh3.googleusercontent.com/d/1WFwnR8LJiPbAiXLEXh-2ltOdi78FLB9s"
+    ]
+  },
+  {
+    id: 4,
+    name: "Costume Grills",
+    price: 100,
+    material: "925 Silver, 21k Gold",
+    description: "Custom-fit 3D designed costume grills available in 925 silver and 21k gold options.",
+    story: "Engineered using high-precision digital dental scans for a custom fit.",
+    images: [
+      "https://lh3.googleusercontent.com/d/1v6HgcIN-hWoWi9IQ_6dv8De3M_Pp9mUg",
+      "https://lh3.googleusercontent.com/d/1YLwRWuC8xrFwmueAC-SBN-mvrGP97kWC",
+      "https://lh3.googleusercontent.com/d/1w52-fd4dgX87Nu5z9L2LtBjuZgJNx7X9",
+      "https://lh3.googleusercontent.com/d/1PlRznvZYPW1XcIZ7TNGCuBY7aIkOGNHa"
+    ]
+  },
+  {
+    id: 5,
+    name: "Nose Piercing",
+    price: 100,
+    material: "21k Gold, ready-made",
+    description: "Handcrafted 21k solid gold nose piercing.",
+    story: "Designed for comfort and durability using high-purity gold alloys.",
+    images: [
+      "https://lh3.googleusercontent.com/d/1gQh96x7NmVaespsJKnO5cTpGsiyZsqwU",
+      "https://lh3.googleusercontent.com/d/1UdV1hH8mPodliDbpxBAi6U-y16Pzh-PK",
+      "https://lh3.googleusercontent.com/d/1DgQQAF-adcyBnSeCerURDTowC7cmBf_B",
+      "https://lh3.googleusercontent.com/d/175MQf_biFchJ29Zkwi9QggiEh2TwuOUU"
+    ]
+  }
+];
 
   let cart = [];
 
   // Navigation & View Routing
-  function showView(viewName) {
-    document.getElementById('home-view').style.display = 'none';
-    document.getElementById('collection-view').style.display = 'none';
-    document.getElementById('product-detail-view').style.display = 'none';
-    document.getElementById('checkout-view').style.display = 'none';
+ function showView(viewName) {
+  document.getElementById('home-view').style.display = 'none';
+  document.getElementById('collection-view').style.display = 'none';
+  document.getElementById('product-detail-view').style.display = 'none';
+  document.getElementById('checkout-view').style.display = 'none';
+  
+  const customView = document.getElementById('custom-order-view');
+  if (customView) customView.style.display = 'none';
 
-    const customView = document.getElementById('custom-order-view');
-    if (customView) customView.style.display = 'none';
-
-    if (viewName === 'collection') {
-      document.getElementById('collection-view').style.display = 'block';
-      renderCollection();
-    } else if (viewName === 'product-detail') {
-      document.getElementById('product-detail-view').style.display = 'block';
-    } else if (viewName === 'checkout') {
-      document.getElementById('checkout-view').style.display = 'block';
-      renderCheckoutSummary();
-    } else if (viewName === 'custom-order') {
-      if (customView) customView.style.display = 'block';
-    } else {
-      document.getElementById('home-view').style.display = 'block';
-    }
-    window.scrollTo(0, 0);
+  if (viewName === 'collection') {
+    document.getElementById('collection-view').style.display = 'block';
+    renderCollection();
+  } else if (viewName === 'product-detail') {
+    document.getElementById('product-detail-view').style.display = 'block';
+  } else if (viewName === 'checkout') {
+    document.getElementById('checkout-view').style.display = 'block';
+    renderCheckoutSummary();
+  } else if (viewName === 'custom-order') {
+    if (customView) customView.style.display = 'block';
+  } else {
+    document.getElementById('home-view').style.display = 'block';
   }
+  window.scrollTo(0, 0);
+}
 
   // Custom Order Toggle & Addition
   function toggleOtherInput() {
@@ -1669,36 +1807,84 @@ footer {
   }
 
   // Product Rendering & Details
-  function renderCollection() {
-    const gridContainer = document.getElementById("product-grid");
-    if (!gridContainer || gridContainer.children.length > 0) return;
+ function renderCollection() {
+  const gridContainer = document.getElementById("product-grid");
+  if (!gridContainer || gridContainer.children.length > 0) return;
 
-    gridContainer.innerHTML = products.map(product => `
+  gridContainer.innerHTML = products.map(product => {
+    // Check for image array, single image, or SVG fallback
+    const mediaHtml = (product.images && product.images.length > 0)
+      ? `<img src="${product.images[0]}" alt="${product.name}" class="piece-img" style="width: 100%; height: 100%; object-fit: cover;" />`
+      : product.svg;
+
+    const displayPrice = typeof product.price === 'number' ? `$${product.price}` : product.price;
+    const displayTag = product.material || product.tag || '';
+
+    return `
       <div class="piece-card" onclick="openProductDetail(${product.id})" style="cursor: pointer;">
-        <div class="piece-art">${product.svg}</div>
+        <div class="piece-art">
+          ${mediaHtml}
+        </div>
         <div class="piece-meta">
           <div>
             <p class="piece-name">${product.name}</p>
-            <p class="piece-tag">${product.tag}</p>
+            <p class="piece-tag">${displayTag}</p>
           </div>
-          <p class="piece-price">${product.price}</p>
+          <p class="piece-price">${displayPrice}</p>
         </div>
       </div>
-    `).join('');
+    `;
+  }).join('');
+}
+
+function openProductDetail(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  // 1. Populate text fields
+  document.getElementById('detail-name').textContent = product.name;
+  document.getElementById('detail-price').textContent = typeof product.price === 'number' ? `$${product.price}` : product.price;
+  document.getElementById('detail-material').textContent = product.material || product.tag || '';
+  document.getElementById('detail-description').textContent = product.description;
+
+  const storyEl = document.getElementById('detail-story');
+  if (storyEl) {
+    storyEl.textContent = product.story || product.description;
   }
 
-  function openProductDetail(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
+ 
 
-    document.getElementById('detail-name').textContent = product.name;
-    document.getElementById('detail-price').textContent = product.price;
-    document.getElementById('detail-material').textContent = product.tag;
-    document.getElementById('detail-description').textContent = product.description;
-    document.getElementById('detail-media').innerHTML = product.svg;
+ // 2. Render Media (Images Slider or SVG fallback)
+  const mediaContainer = document.getElementById('detail-media');
+  if (mediaContainer) {
+    if (product.images && product.images.length > 0) {
+      mediaContainer.style.padding = '0';
+      mediaContainer.style.margin = '0';
+      mediaContainer.style.background = '#0a0a0a';
+      mediaContainer.style.overflow = 'hidden';
+      mediaContainer.style.borderRadius = '16px';
+      mediaContainer.style.width = '100%';
+      mediaContainer.style.height = 'auto';
+      mediaContainer.style.minHeight = 'unset'; // Removes forced pixel height on mobile
 
-    document.getElementById('add-to-cart-btn').setAttribute('onclick', `addToCart(${product.id})`);
-    showView('product-detail');
+      mediaContainer.innerHTML = `
+        <div style="width: 100%; position: relative;">
+          <div id="detail-slider" style="display: flex; overflow-x: auto; scroll-snap-type: x mandatory; width: 100%; aspect-ratio: 1 / 1; border-radius: 16px; scrollbar-width: none;">
+            ${product.images.map((imgUrl, index) => `
+              <img 
+                src="${imgUrl}" 
+                alt="${product.name} angle ${index + 1}" 
+                style="width: 100%; height: 100%; flex-shrink: 0; scroll-snap-align: start; object-fit: cover; display: block;" 
+              />
+            `).join('')}
+          </div>
+        </div>
+      `;
+    } else if (product.svg) {
+      mediaContainer.style.padding = '2rem';
+      mediaContainer.style.background = '#f4f5f7';
+      mediaContainer.innerHTML = product.svg;
+    }
   }
 
   // Cart Drawer Operations
