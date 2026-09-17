@@ -1,4 +1,1174 @@
 <style>
+:root {
+  --ink: #1D3156;
+  --azure-deep: #1D3156;
+  --azure-mid: #496894;
+  --azure-soft: #A4B5D1;
+  --cascade-pale: #B0CBE6;
+  --paper: #F6DFE1;
+  --paper-offwhite: #FBF7F5;
+  --paper-dim: #F3F1EB;
+  --gold: #FED6CE;
+  --gold-accent: #C5A059;
+  --line: rgba(29, 49, 86, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .display {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--azure-deep);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--azure-mid);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* --- Consolidated Header --- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: var(--paper-offwhite);
+  border-bottom: 1px solid #E5E0DA;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.brand-logo {
+  width: 110px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.brand-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-links button,
+.nav-links a {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: var(--ink);
+  white-space: nowrap;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.nav-links button:hover,
+.nav-links a:hover {
+  opacity: 1;
+}
+
+/* --- Hero Section --- */
+/* NOTE: this first .hero block is fully overridden by the second
+   ".hero { ... }" rule further down (position/overflow/min-height/etc).
+   CSS just takes the last matching rule, so nothing below is broken,
+   but if you ever wonder "why isn't padding-top:40px doing anything"
+   -- this is why. Kept both so nothing you rely on gets removed. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: 40px;
+}
+
+.hero-eyebrow {
+  font-size: 0.95rem;
+  color: var(--azure-mid);
+  margin-bottom: 18px;
+}
+
+
+.hero p.lede {
+  margin-top: 24px;
+  max-width: 42ch;
+  font-size: 1.08rem;
+  color: rgba(29, 49, 86, 0.78);
+}
+
+.hero-actions {
+  margin-top: 36px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 26px;
+  font-size: 0.95rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--azure-deep);
+  color: var(--paper);
+  border: 1px solid var(--azure-deep);
+}
+
+.btn-primary:hover {
+  background: var(--ink);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--azure-deep);
+  border: 1px solid var(--line);
+}
+
+.btn-ghost:hover {
+  border-color: var(--azure-deep);
+}
+
+.btn-back {
+  background-color: transparent;
+  color: var(--azure-deep);
+  border: 1px solid var(--azure-deep);
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-back:hover {
+  background-color: var(--azure-deep);
+  color: #ffffff;
+}
+
+/* --- Full-Width Hero Background --- */
+/* --- Full-Width Hero Background (No Overlay) --- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 0;
+}
+
+/* Background image filling section directly */
+.hero-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+}
+
+/* Remove or hide overlay */
+.hero-overlay {
+  display: none;
+}
+
+/* Text layer sitting above image */
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+  width: 100%;
+}
+
+.hero-content {
+  max-width: 580px;
+}
+
+/* Text styles */
+/* NOTE: these color/background values were empty in the version you sent
+   (e.g. "color: ;"). An empty value is ignored by the browser, so your
+   hero text/buttons are currently just using their normal dark-ink
+   colors, not a light color over a photo. Fill these in once you add
+   the real background image -- for now I've left them empty rather than
+   guessing colors you didn't specify. */
+.hero h1 {
+  font-size: clamp(2.6rem, 5vw, 4.1rem);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); /* Optional: improves readability over raw photos */
+}
+
+.hero p.lede {
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+.hero-eyebrow {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Button contrast updates -- fill in colors once the hero has a photo background */
+.hero .btn-primary {
+}
+
+.hero .btn-primary:hover {
+}
+
+.hero .btn-ghost {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.hero .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 680px) {
+  .hero {
+    min-height: 70vh;
+    padding: 60px 0;
+  }
+  
+  .hero-overlay {
+    background: rgba(29, 49, 86, 0.82); /* Stronger tint on mobile screens */
+  }
+}
+
+
+/* Responsive adjustment for tablet/mobile */
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    padding: 12px 16px;
+    flex-wrap: wrap;     
+    row-gap: 10px;      
+  }
+  .hero-art {
+    min-height: 360px;
+  }
+}
+
+/* --- Sections & Layout --- */
+section {
+  padding: 96px 0;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 52px;
+  flex-wrap: wrap;
+}
+
+.section-head h2 {
+  font-size: clamp(2rem, 3.2vw, 2.6rem);
+}
+
+.section-head p {
+  max-width: 38ch;
+  color: rgba(29, 49, 86, 0.7);
+  font-size: 1rem;
+}
+
+.section-link {
+  font-size: 0.95rem;
+  color: var(--azure-mid);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+
+.shop {
+  background: var(--paper);
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+/* Home Horizontal Scroll View */
+#home-view .shop-grid {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 1.25rem;
+}
+
+#home-view .shop-grid .piece-card {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+}
+
+#home-view .shop-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+#home-view .shop-grid::-webkit-scrollbar-track {
+  background: #F4F6F8;
+  border-radius: 4px;
+}
+
+#home-view .shop-grid::-webkit-scrollbar-thumb {
+  background: var(--azure-soft);
+  border-radius: 4px;
+}
+
+/* Product Cards */
+.piece-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper-dim);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  z-index: 5;
+  pointer-events: auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden; /* Clips top image corners to match card radius */
+  padding: 0;       /* Removes outer card padding */
+}
+
+.piece-card:hover {
+  transform: translateY(-2px);
+}
+
+.piece-card * {
+  pointer-events: none;
+}
+
+.piece-card button,
+.piece-card a {
+  pointer-events: auto;
+}
+
+/* Feature Card Override — Padding set to 0 to keep full-bleed image */
+.piece-card.feature {
+  grid-column: span 2;
+  grid-row: span 2;
+  background: linear-gradient(165deg, var(--cascade-pale) 0%, var(--paper-dim) 78%);
+  padding: 0;
+}
+
+/* Image Container — Fills top edge-to-edge */
+.piece-art {
+  width: 100%;
+  height: 280px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: block;
+}
+
+.piece-card.feature .piece-art {
+  height: 380px; /* Taller photo height for featured pieces */
+}
+
+.piece-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Covers box without stretching or letterboxing */
+  display: block;
+  border-radius: 0;  /* Edge-to-edge fit */
+}
+
+/* Padding moved to text and action elements */
+.piece-meta {
+  padding: 20px 20px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.piece-name {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+
+.piece-card.feature .piece-name {
+  font-size: 1.5rem;
+}
+
+.piece-tag {
+  font-size: 0.82rem;
+  color: var(--azure-mid);
+  margin-top: 4px;
+}
+
+.piece-price {
+  font-size: 0.98rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.piece-actions {
+  padding: 16px 20px 20px 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.piece-actions .btn {
+  padding: 10px 16px;
+  font-size: 0.85rem;
+}
+/* Product Detail Page Layout */
+.product-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 24px;
+}
+
+.product-media {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(251, 250, 247, 0.1);
+  border-radius: 8px;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-price {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 16px 0;
+  color: var(--cascade-pale);
+}
+
+.btn-buy {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 24px;
+}
+
+.specs-box, .story-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(251, 250, 247, 0.1);
+  padding: 20px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.specs-box h3, .story-box h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+/* --- Choice / Banner Section --- */
+.choice {
+  background: var(--azure-deep);
+  color: var(--paper);
+  padding: 48px 0;
+}
+
+.choice .section-head h2,
+.choice .section-head p {
+  color: var(--paper);
+}
+
+.choice .section-head p {
+  opacity: 0.75;
+}
+
+.choice-grid {
+  display: flex;
+  width: 100%;
+}
+
+.choice-card {
+  width: 100%;
+  max-width: 100%;
+  padding: 48px 32px;
+  background: var(--azure-deep);
+  border: 1px solid rgba(251, 250, 247, 0.18);
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.choice-card .btn-ghost {
+  color: var(--paper);
+  border-color: rgba(251, 250, 247, 0.4);
+}
+
+.choice-card .btn-ghost:hover {
+  border-color: var(--paper);
+  background: rgba(251, 250, 247, 0.08);
+}
+
+/* --- Process Section --- */
+.process-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+.process-step {
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.process-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  color: var(--azure-mid);
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.process-step h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+}
+
+.process-step p {
+  font-size: 0.95rem;
+  color: rgba(29, 49, 86, 0.72);
+}
+
+/* --- Custom Order Form --- */
+.custom-order-container {
+  max-width: 640px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+.custom-order-card {
+  background: var(--paper-dim);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 40px 32px;
+  box-shadow: 0 4px 20px rgba(29, 49, 86, 0.04);
+}
+
+.custom-order-title {
+  font-size: 2rem;
+  color: var(--ink);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.custom-order-subtitle {
+  text-align: center;
+  color: var(--azure-mid);
+  font-size: 0.95rem;
+  margin-bottom: 28px;
+}
+
+.custom-form-group {
+  margin-bottom: 20px;
+}
+
+.custom-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+.custom-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.custom-input:focus {
+  border-color: var(--azure-mid);
+  box-shadow: 0 0 0 3px rgba(73, 104, 148, 0.15);
+}
+
+.price-note {
+  font-size: 0.85rem;
+  color: var(--azure-mid);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* --- Cart Drawer & Overlay --- */
+.cart-trigger {
+  background: transparent;
+  border: 1px solid var(--azure-deep);
+  color: var(--azure-deep);
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border-radius: 2px;
+}
+
+.cart-trigger:hover {
+  background: var(--azure-deep);
+  color: #ffffff;
+}
+
+#cart-count {
+  font-weight: 600;
+  color: var(--azure-deep);
+}
+
+.cart-trigger:hover #cart-count {
+  color: var(--gold);
+}
+
+.cart-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(29, 49, 86, 0.3);
+  backdrop-filter: blur(2px);
+  display: none;
+  z-index: 998;
+}
+
+.cart-overlay.open {
+  display: block;
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 100%;
+  max-width: 380px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -8px 0 24px rgba(29, 49, 86, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 999;
+  color: var(--azure-deep);
+}
+
+.cart-drawer.open {
+  right: 0;
+}
+
+.cart-header {
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(29, 49, 86, 0.1);
+}
+
+.cart-header h2 {
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.close-cart-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--azure-deep);
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.close-cart-btn:hover {
+  opacity: 1;
+}
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem 1.75rem;
+}
+
+.cart-items p {
+  color: rgba(29, 49, 86, 0.6);
+  font-size: 0.95rem;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(29, 49, 86, 0.08);
+}
+
+.cart-item h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--azure-deep);
+}
+
+.cart-item p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(29, 49, 86, 0.7);
+}
+
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #F4F6F8;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.cart-item-qty button {
+  background: none;
+  border: none;
+  color: var(--azure-deep);
+  font-size: 1rem;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.cart-item-qty button:hover {
+  color: var(--cascade-pale);
+}
+
+.cart-item-qty span {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.cart-footer {
+  padding: 1.5rem 1.75rem;
+  border-top: 1px solid rgba(29, 49, 86, 0.1);
+  background: #FAFCFE;
+}
+
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.25rem;
+  color: var(--azure-deep);
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 0.875rem;
+  background: var(--azure-deep);
+  color: #ffffff;
+  border: none;
+  border-radius: 2px;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.checkout-btn:hover {
+  background: #2b4575;
+}
+
+/* --- Story & Newsletter --- */
+.story {
+  background: var(--paper-dim);
+}
+
+.story-inner {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.story h2 {
+  font-size: clamp(1.9rem, 3vw, 2.4rem);
+  margin-bottom: 22px;
+  max-width: 14ch;
+}
+
+.story p {
+  color: rgba(29, 49, 86, 0.78);
+  margin-bottom: 16px;
+  max-width: 52ch;
+}
+
+.story-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter {
+  background: var(--paper);
+}
+
+.newsletter-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  padding: 56px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.newsletter h2 {
+  font-size: 1.7rem;
+  max-width: 16ch;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0;
+  min-width: 320px;
+  flex: 1;
+  max-width: 420px;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-right: none;
+  background: var(--paper);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.95rem;
+  color: var(--ink);
+  border-radius: 2px 0 0 2px;
+}
+
+.newsletter-form input:focus {
+  outline: none;
+  border-color: var(--azure-mid);
+}
+
+.newsletter-form button {
+  padding: 14px 22px;
+  background: var(--azure-deep);
+  color: var(--paper);
+  border: 1px solid var(--azure-deep);
+  border-radius: 0 2px 2px 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.newsletter-form button:hover {
+  background: var(--ink);
+}
+  /* --- 1. Root & Main Container Reset --- */
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Ensure the main tag stacks children vertically without side-by-side flex forcing */
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* --- 2. SPA View Wrapper Rules (Preserves hidden states) --- */
+.view {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* If your hidden class/attribute is used, respect display: none */
+.view.hidden,
+[hidden] {
+  display: none !important;
+}
+
+/* --- 3. Grid Restorations for Desktop & Mobile --- */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Desktop Home View Horizontal Scroll (Only on home view, not collection view) */
+#home-view .shop-grid {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+}
+
+#home-view .shop-grid .piece-card {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+}
+
+/* Mobile Breakpoint Fixes */
+@media (max-width: 680px) {
+  .wrap, 
+  .site-header, 
+  section {
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+  }
+
+  /* FIXED: was "#product-detail" which doesn't match any element in the
+     HTML (the actual id is "product-detail-view"), so this rule was
+     silently doing nothing. */
+  #product-detail-view .product-detail-layout {
+    grid-template-columns: 1fr !important;
+    flex-direction: column !important;
+  }
+
+  /* Full collection view vertical stack on mobile */
+  #collection-view .shop-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .piece-card {
+    width: 100%;
+  }
+}
+
+/* --- Footer --- */
+footer {
+  background: var(--ink);
+  color: rgba(251, 250, 247, 0.7);
+  padding: 64px 0 32px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 32px;
+  padding-bottom: 48px;
+}
+
+.footer-logo {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--paper);
+  margin-bottom: 14px;
+}
+
+.footer-grid p {
+  font-size: 0.92rem;
+  max-width: 32ch;
+}
+
+.footer-col h4 {
+  color: var(--paper);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.footer-col a, .footer-col p {
+  display: block;
+  font-size: 0.92rem;
+  color: rgba(251, 250, 247, 0.68);
+  margin-bottom: 10px;
+}
+
+.footer-col a:hover {
+  color: var(--paper);
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 24px;
+  border-top: 1px solid rgba(251, 250, 247, 0.14);
+  font-size: 0.82rem;
+  color: rgba(251, 250, 247, 0.5);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* --- Responsive Rules (Ordered correctly by breakpoint) --- */
+@media (max-width: 900px) {
+  .hero-inner { 
+    grid-template-columns: 1fr; 
+  }
+  .hero-art { 
+    order: -1; 
+    width: 100%;
+    max-width: 100%; /* Overrides the old 280px cap */
+    min-height: 360px;
+    margin: 0 0 24px 0; 
+  }
+  .shop-grid { grid-template-columns: repeat(2, 1fr); }
+  .piece-card.feature { grid-column: span 2; grid-row: span 1; }
+  .choice-grid { grid-template-columns: 1fr; }
+  .process-list { grid-template-columns: repeat(2, 1fr); }
+  .story-inner { grid-template-columns: 1fr; }
+  .story-art { order: -1; max-width: 260px; margin: 0 auto; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .product-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 680px) {
+  .site-header {
+    padding: 12px 16px;
+    flex-wrap: wrap;      /* ADDED: lets the nav drop to its own line
+                              instead of overflowing off-screen */
+    row-gap: 10px;         /* ADDED: breathing room between the logo
+                              row and the nav row once it wraps */
+  }
+
+  .brand-container {
+    gap: 6px;
+  }
+
+  .brand-logo {
+    width: 65px;
+  }
+
+  .brand-title {
+    font-size: 0.95rem;
+  }
+
+  .nav-links {
+    width: 100%;                      /* ADDED: forces nav onto its own
+                                          full-width row on mobile */
+    justify-content: space-between;   /* ADDED: spreads Collection /
+                                          Custom Order / Cart evenly
+                                          across that row */
+    gap: 10px;
+  }
+
+  .nav-links button,
+  .nav-links a {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .wrap, .hero-inner { padding-left: 20px; padding-right: 20px; }
+  section { padding: 64px 0; }
+  .shop-grid { grid-template-columns: 1fr; }
+  .piece-card.feature { grid-column: span 1; }
+  .process-list { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .newsletter-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
 
 <!DOCTYPE html>
 <html lang="en">
