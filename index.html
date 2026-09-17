@@ -1764,22 +1764,18 @@ function showView(viewName, pushState = true) {
   });
 
   if (viewName === 'collection') {
-    const colView = document.getElementById('collection-view');
-    if (colView) colView.style.display = 'block';
-    if (typeof renderCollection === 'function') renderCollection();
+    document.getElementById('collection-view').style.display = 'block';
+    renderCollection();
   } else if (viewName === 'product-detail') {
-    const pdView = document.getElementById('product-detail-view');
-    if (pdView) pdView.style.display = 'block';
+    document.getElementById('product-detail-view').style.display = 'block';
   } else if (viewName === 'checkout') {
-    const chkView = document.getElementById('checkout-view');
-    if (chkView) chkView.style.display = 'block';
+    document.getElementById('checkout-view').style.display = 'block';
     renderCheckoutSummary();
   } else if (viewName === 'custom-order') {
     const customView = document.getElementById('custom-order-view');
     if (customView) customView.style.display = 'block';
   } else {
-    const homeView = document.getElementById('home-view');
-    if (homeView) homeView.style.display = 'block';
+    document.getElementById('home-view').style.display = 'block';
     viewName = 'home';
   }
 
@@ -1791,23 +1787,155 @@ function showView(viewName, pushState = true) {
   window.scrollTo(0, 0);
 }
 
-// Router state handler for browser history navigation
 function handleRouting(state) {
-  if (!state || !state.view || state.view === 'home') {
-    showView('home', false);
-  } else if (state.view === 'product-detail' && state.productId) {
-    openProductDetail(state.productId, false);
+  const hash = window.location.hash;
+
+  if (state && state.view) {
+    if (state.view === 'product-detail' && state.productId) {
+      openProductDetail(state.productId, false);
+    } else {
+      showView(state.view, false);
+    }
+  } else if (hash.startsWith('#product-')) {
+    const productId = parseInt(hash.replace('#product-', ''), 10);
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      openProductDetail(productId, false);
+    } else {
+      showView('home', false);
+    }
+  } else if (hash) {
+    const viewName = hash.replace('#', '');
+    showView(viewName || 'home', false);
   } else {
-    showView(state.view, false);
+    showView('home', false);
   }
 }
 
-// Custom Order Logic
+// Product Rendering & Details
+function renderCollection() {
+  const gridContainer = document.getElementById("product-grid");
+  if (!gridContainer || gridContainer.children.length > 0) return;
+
+  gridContainer.innerHTML = products.map(product => {
+    const mediaHtml = (product.images && product.images.length > 0)
+      ? `<img src="${product.images[0]}" alt="${product.name}" class="piece-img" style="width: 100%; height: 100%; object-fit: cover;" />`
+      : product.svg;
+
+    const displayPrice = typeof product.price === 'number' ? `$${product.price}` : product.price;
+    const displayTag = product.material || product.tag || '';
+
+    return `
+      <div class="piece-card" onclick="openProductDetail(${product.id})" style="cursor: pointer;">
+        <div class="piece-art">
+          ${mediaHtml}
+        </div>
+        <div class="piece-meta">
+          <div>
+            <p class="piece-name">${product.name}</p>
+            <p class="piece-tag">${displayTag}</p>
+          </div>
+          <p class="piece-price">${displayPrice}</p>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openProductDetail(productId, pushState = true) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  document.getElementById('detail-name').textContent = product.name;
+  document.getElementById('detail-price').textContent = typeof product.price === 'number' ? `$${product.price}` : product.price;
+  document.getElementById('detail-material').textContent = product.material || product.tag || '';
+  document.getElementById('detail-description').textContent = product.description;
+
+  const storyEl = document.getElementById('detail-story');
+  if (storyEl) {
+    storyEl.textContent = product.story || product.description;
+  }
+
+  const mediaContainer = document.getElementById('detail-media');
+  if (mediaContainer) {
+    if (product.images && product.images.length > 0) {
+      mediaContainer.style.padding = '0';
+      mediaContainer.style.margin = '0';
+      mediaContainer.style.background = '#0a0a0a';
+      mediaContainer.style.overflow = 'hidden';
+      mediaContainer.style.borderRadius = '16px';
+      mediaContainer.style.width = '100%';
+      mediaContainer.style.height = 'auto';
+
+      mediaContainer.innerHTML = `
+        <div style="width: 100%; position: relative;">
+          <div id="detail-slider" style="display: flex; overflow-x: auto; scroll-snap-type: x mandatory; width: 100%; aspect-ratio: 1 / 1; border-radius: 16px; scrollbar-width: none;">
+            ${product.images.map((imgUrl, index) => `
+              <img 
+                id="detail-slide-${index}"
+                src="${imgUrl}" 
+                alt="${product.name} angle ${index + 1}" 
+                style="width: 100%; height: 100%; flex-shrink: 0; scroll-snap-align: start; object-fit: cover; display: block;" 
+              />
+            `).join('')}
+          </div>
+        </div>
+      `;
+    } else if (product.svg) {
+      mediaContainer.style.padding = '2rem';
+      mediaContainer.style.background = '#f4f5f7';
+      mediaContainer.innerHTML = product.svg;
+    }
+  }
+
+  const addBtn = document.getElementById('add-to-cart-btn');
+  if (addBtn) {
+    addBtn.onclick = () => addToCart(product.id);
+  }
+
+  if (pushState) {
+    history.pushState({ view: 'product-detail', productId: product.id }, '', `#product-${product.id}`);
+  }
+
+  currentView = 'product-detail';
+  showView('product-detail', false);
+}
+
+// Router Event Listeners
+window.addEventListener('popstate', (event) => {
+  handleRouting(event.state);
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  handleRouting(history.state);
+  setupSliderDots();
+});
+
+function setupSliderDots() {
+  const dots = document.querySelectorAll('.detail-slider-dots .dot');
+  const slider = document.getElementById('detail-slider');
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetImg = document.getElementById(`detail-slide-${index}`);
+      if (targetImg && slider) {
+        slider.scrollTo({
+          left: targetImg.offsetLeft,
+          behavior: 'smooth'
+        });
+        dots.forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+      }
+    });
+  });
+}
+
 function toggleOtherInput() {
   const select = document.getElementById('co-piece-type');
   const wrapper = document.getElementById('co-other-wrapper');
   const otherInput = document.getElementById('co-other-type');
-
+  
   if (!select || !wrapper || !otherInput) return;
 
   if (select.value === 'Other') {
@@ -1847,89 +1975,28 @@ function addCustomToCart(event) {
   toggleCart();
 }
 
-// Slider Dot Controls
-function setupSliderDots() {
-  const dots = document.querySelectorAll('.detail-slider-dots .dot');
-  const slider = document.getElementById('detail-slider');
+function handleSubscribe(event) {
+  event.preventDefault();
+  const emailInput = document.getElementById('email');
+  const messageEl = document.getElementById('subscribe-message');
+  const submitBtn = event.target.querySelector('button');
+  const email = emailInput ? emailInput.value : '';
 
-  if (!slider || dots.length === 0) return;
-
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetImg = document.getElementById(`detail-slide-${index}`);
-      if (targetImg) {
-        slider.scrollTo({
-          left: targetImg.offsetLeft,
-          behavior: 'smooth'
-        });
-        dots.forEach(d => d.classList.remove('active'));
-        dot.classList.add('active');
-      }
-    });
-  });
-}
-
-// Unified Product Details Handler
-function openProductDetail(productId, pushState = true) {
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
-
-  document.getElementById('detail-name').textContent = product.name;
-  document.getElementById('detail-price').textContent = typeof product.price === 'number' ? `$${product.price}` : product.price;
-  document.getElementById('detail-material').textContent = product.material || product.tag || '';
-  document.getElementById('detail-description').textContent = product.description;
-
-  const storyEl = document.getElementById('detail-story');
-  if (storyEl) {
-    storyEl.textContent = product.story || product.description;
-  }
-
-  const mediaContainer = document.getElementById('detail-media');
-  if (mediaContainer) {
-    if (product.images && product.images.length > 0) {
-      mediaContainer.style.padding = '0';
-      mediaContainer.style.margin = '0';
-      mediaContainer.style.background = '#0a0a0a';
-      mediaContainer.style.overflow = 'hidden';
-      mediaContainer.style.borderRadius = '16px';
-      mediaContainer.style.width = '100%';
-
-      mediaContainer.innerHTML = `
-        <div style="width: 100%; position: relative;">
-          <div id="detail-slider" style="display: flex; overflow-x: auto; scroll-snap-type: x mandatory; width: 100%; aspect-ratio: 1 / 1; border-radius: 16px; scrollbar-width: none;">
-            ${product.images.map((imgUrl, index) => `
-              <img 
-                id="detail-slide-${index}"
-                src="${imgUrl}" 
-                alt="${product.name} angle ${index + 1}" 
-                style="width: 100%; height: 100%; flex-shrink: 0; scroll-snap-align: start; object-fit: cover; display: block;" 
-              />
-            `).join('')}
-          </div>
-        </div>
-      `;
-    } else if (product.svg) {
-      mediaContainer.style.padding = '2rem';
-      mediaContainer.style.background = '#f4f5f7';
-      mediaContainer.innerHTML = product.svg;
+  if (email) {
+    if (submitBtn) submitBtn.textContent = 'Subscribed!';
+    if (messageEl) {
+      messageEl.textContent = `Thank you for subscribing with ${email}!`;
+      messageEl.style.display = 'block';
     }
-  }
+    if (emailInput) emailInput.value = '';
 
-  const addBtn = document.getElementById('add-to-cart-btn');
-  if (addBtn) {
-    addBtn.onclick = () => addToCart(product.id);
+    setTimeout(() => {
+      if (submitBtn) submitBtn.textContent = 'Subscribe';
+      if (messageEl) messageEl.style.display = 'none';
+    }, 5000);
   }
-
-  if (pushState) {
-    history.pushState({ view: 'product-detail', productId: product.id }, '', `#product-${product.id}`);
-  }
-
-  showView('product-detail', false);
-  setupSliderDots();
 }
 
-// Cart Drawer Operations
 function toggleCart() {
   const drawer = document.getElementById('cart-drawer');
   const overlay = document.getElementById('cart-overlay');
@@ -1976,7 +2043,7 @@ function updateCartUI() {
   if (cartCountEl) cartCountEl.textContent = totalCount;
 
   if (cart.length === 0) {
-    if (cartItemsContainer) cartItemsContainer.innerHTML = '<p style="color: #666; text-align: center; margin-top: 40px;">Your cart is empty.</p>';
+    if (cartItemsContainer) cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
     if (cartTotalEl) cartTotalEl.textContent = '$0.00';
     return;
   }
@@ -1984,13 +2051,14 @@ function updateCartUI() {
   let totalCost = 0;
   if (cartItemsContainer) {
     cartItemsContainer.innerHTML = cart.map(item => {
-      const price = parseFloat(String(item.price).replace(/[^0-9.-]+/g, '')) || 0;
-      totalCost += price * item.quantity;
+      const numericPrice = parseFloat(String(item.price).replace(/[^0-9.-]+/g, '')) || 0;
+      const itemTotal = numericPrice * item.quantity;
+      totalCost += itemTotal;
       return `
         <div class="cart-item">
           <div>
-            <h4 style="font-size: 0.95rem; color: #1D3156;">${item.name}</h4>
-            <p style="font-size: 0.85rem; color: #666;">${item.price} × ${item.quantity}</p>
+            <h4>${item.name}</h4>
+            <p>${item.price} × ${item.quantity}</p>
           </div>
           <div class="cart-item-qty">
             <button onclick="changeQuantity('${item.id}', -1)">-</button>
@@ -2005,7 +2073,6 @@ function updateCartUI() {
   if (cartTotalEl) cartTotalEl.textContent = `$${totalCost.toFixed(2)}`;
 }
 
-// Checkout Operations
 function goToCheckout() {
   if (cart.length === 0) {
     alert("Your cart is empty!");
@@ -2024,13 +2091,14 @@ function renderCheckoutSummary() {
   if (!summaryContainer) return;
 
   summaryContainer.innerHTML = cart.map(item => {
-    const price = parseFloat(String(item.price).replace(/[^0-9.-]+/g, '')) || 0;
-    const displayTotal = item.price === "TBD" ? "TBD" : `$${(price * item.quantity).toFixed(2)}`;
+    const numericPrice = parseFloat(String(item.price).replace(/[^0-9.-]+/g, '')) || 0;
+    const itemTotal = numericPrice * item.quantity;
+    const displayTotal = item.price === "TBD" ? "TBD" : `$${itemTotal.toFixed(2)}`;
     return `
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
         <div>
-          <p style="font-weight: 600; margin: 0; font-size: 0.9rem;">${item.name}</p>
-          <p style="font-size: 0.8rem; color: #666; margin: 2px 0 0 0;">Qty: ${item.quantity} × ${item.price}</p>
+          <p style="font-weight: bold; margin: 0; font-size: 0.95rem;">${item.name}</p>
+          <p style="font-size: 0.85rem; color: #666; margin: 2px 0 0 0;">Qty: ${item.quantity} × ${item.price}</p>
         </div>
         <strong>${displayTotal}</strong>
       </div>
@@ -2047,15 +2115,15 @@ function updateCheckoutTotals() {
     subtotal += price * item.quantity;
   });
 
-  const shipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 15);
-  const grandTotal = subtotal + shipping;
+  const selectedShipping = parseFloat(document.querySelector('input[name="shipping"]:checked')?.value || 15);
+  const grandTotal = subtotal + selectedShipping;
 
   const subTotalEl = document.getElementById('co-subtotal');
   const shippingEl = document.getElementById('co-shipping');
   const grandTotalEl = document.getElementById('co-grand-total');
 
   if (subTotalEl) subTotalEl.textContent = `$${subtotal.toFixed(2)}`;
-  if (shippingEl) shippingEl.textContent = `$${shipping.toFixed(2)}`;
+  if (shippingEl) shippingEl.textContent = `$${selectedShipping.toFixed(2)}`;
   if (grandTotalEl) grandTotalEl.textContent = `$${grandTotal.toFixed(2)}`;
 }
 
@@ -2151,26 +2219,6 @@ async function handleFinalOrder(event) {
   }
 }
 
-function handleSubscribe(event) {
-  event.preventDefault();
-  const emailInput = document.getElementById('email');
-  const messageEl = document.getElementById('subscribe-message');
-  if (emailInput && emailInput.value) {
-    messageEl.textContent = `Thank you for subscribing!`;
-    messageEl.style.display = 'block';
-    emailInput.value = '';
-    setTimeout(() => { messageEl.style.display = 'none'; }, 4000);
-  }
-}
-
-// Router Event Listeners
-window.addEventListener('popstate', (event) => {
-  handleRouting(event.state);
-});
-
-window.addEventListener('DOMContentLoaded', () => {
-  handleRouting(history.state);
-});
 </script>
   
 </body>
